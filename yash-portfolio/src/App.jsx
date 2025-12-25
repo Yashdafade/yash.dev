@@ -160,7 +160,6 @@ function ThreeBackground() {
     if (!mountRef.current) return;
 
     const scene = new THREE.Scene();
-    // Dark background matching VS Code theme
     scene.fog = new THREE.FogExp2(0x0d1117, 0.05);
 
     const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -286,7 +285,6 @@ function ThreeBackground() {
 
 // --- Specific Views ---
 
-// FIX: Solid Header Background + Flexbox Layout for scrolling
 const SkillsView = () => (
     <div className="flex flex-col h-full font-sans text-gray-300">
         {/* Fixed Header */}
@@ -376,7 +374,6 @@ const SkillsView = () => (
     </div>
 );
 
-// FIX: Flexbox Layout for Projects
 const ProjectsView = () => (
      <div className="flex flex-col h-full font-sans text-gray-300">
         <div className="flex-none p-6 bg-[#1e1e1e] border-b border-[#2d2d2d] z-20">
@@ -459,7 +456,6 @@ const ProjectsView = () => (
      </div>
 );
 
-// FIX: Flexbox Layout for Timeline
 const TimelineView = () => (
     <div className="flex flex-col h-full font-sans text-gray-300">
         <div className="flex-none p-6 bg-[#1e1e1e] border-b border-[#2d2d2d] z-20">
@@ -576,7 +572,8 @@ const SyntaxHighlighter = ({ content, language }) => {
 
 export default function App() {
   const [activeFile, setActiveFile] = useState("README.md");
-  const [openFiles, setOpenFiles] = useState(["README.md", "skills.json", "projects.py"]);
+  // FIX: Added "career_timeline.tsx" to initial open files
+  const [openFiles, setOpenFiles] = useState(["README.md", "skills.json", "projects.py", "career_timeline.tsx"]);
   const [isSidebarOpen, setSidebarOpen] = useState(true);
   const [activeSidebarIndex, setActiveSidebarIndex] = useState(0); 
   const [isPreviewMode, setIsPreviewMode] = useState(true); 
@@ -667,9 +664,10 @@ export default function App() {
     <div className="relative w-full h-[100dvh] bg-[#0d1117] text-gray-300 font-sans overflow-hidden flex items-center justify-center">
       <ThreeBackground />
 
-      {/* Main Container - Centered, Smaller Window */}
+      {/* Main Container - Centered, Slightly Larger Window */}
+      {/* FIX: Increased width/height classes for larger window */}
       <div 
-        className="relative w-[90vw] h-[85vh] md:w-[85vw] md:h-[80vh] max-w-[1400px] flex flex-col overflow-hidden bg-[#1e1e1e] rounded-lg border border-[#333] shadow-2xl z-10"
+        className="relative w-[95vw] h-[92vh] md:w-[95vw] md:h-[85vh] max-w-[1600px] flex flex-col overflow-hidden bg-[#1e1e1e] rounded-lg border border-[#333] shadow-2xl z-10 animate-in fade-in zoom-in-95 duration-500"
       >
         {/* Glow Effect behind window */}
         <div className="absolute -inset-[1px] bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-lg blur-sm -z-10"></div>
@@ -729,6 +727,9 @@ export default function App() {
                         <UserCircle size={26} className="text-gray-400 group-hover:text-white transition-colors relative z-10" />
                         <div className="absolute top-0 right-0 w-2.5 h-2.5 bg-blue-500 rounded-full border-2 border-[#333333] z-20"></div>
                     </div>
+
+                    {/* FIX: Invisible bridge to prevent flickering when moving mouse to popup */}
+                    <div className="absolute left-full top-0 h-full w-4 bg-transparent"></div>
 
                     {/* Popup - Strictly Nested in Group */}
                     <div className="absolute left-10 bottom-0 w-72 bg-[#252526] border border-black shadow-2xl rounded-lg p-0 z-50 overflow-hidden text-sm hidden group-hover:block animate-in fade-in slide-in-from-left-5 duration-200">
@@ -801,11 +802,13 @@ export default function App() {
                 
                 {/* Tabs */}
                 <div className="flex bg-[#252526] h-9 overflow-x-auto shrink-0 custom-scrollbar">
-                    {openFiles.map(file => (
+                    {/* FIX: Added slide-in animation to tabs */}
+                    {openFiles.map((file, index) => (
                       <div 
                         key={file} 
+                        style={{ animationDelay: `${index * 50}ms` }}
                         onClick={() => handleFileClick(file)}
-                        className={`group flex items-center px-3 cursor-pointer text-[13px] border-r border-[#1e1e1e] min-w-[120px] max-w-[200px] justify-between ${activeFile === file ? 'bg-[#1e1e1e] text-white border-t border-t-blue-500' : 'bg-[#2d2d2d] text-gray-400 hover:bg-[#2a2d2e]'}`}
+                        className={`group flex items-center px-3 cursor-pointer text-[13px] border-r border-[#1e1e1e] min-w-[120px] max-w-[200px] justify-between animate-in fade-in slide-in-from-left-4 duration-300 ${activeFile === file ? 'bg-[#1e1e1e] text-white border-t border-t-blue-500' : 'bg-[#2d2d2d] text-gray-400 hover:bg-[#2a2d2e]'}`}
                       >
                         <div className="flex items-center truncate">
                             <span className="mr-2 opacity-80">{RESUME_DATA[file].icon}</span>
@@ -817,7 +820,7 @@ export default function App() {
                 </div>
 
                 {/* Breadcrumbs */}
-                <div className="h-8 bg-[#1e1e1e] flex items-center px-4 text-xs text-gray-500 border-b border-[#252526] justify-between shrink-0">
+                <div className="h-8 bg-[#1e1e1e] flex items-center px-4 text-xs text-gray-500 border-b border-[#2d2d2d] justify-between shrink-0">
                     <div className="flex items-center">
                         <span>src</span>
                         <ChevronRight size={12} className="mx-1" />
