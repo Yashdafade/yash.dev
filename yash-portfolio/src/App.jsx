@@ -160,6 +160,7 @@ function ThreeBackground() {
     if (!mountRef.current) return;
 
     const scene = new THREE.Scene();
+    // Dark background matching VS Code theme
     scene.fog = new THREE.FogExp2(0x0d1117, 0.05);
 
     const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -178,7 +179,7 @@ function ThreeBackground() {
 
     // Responsive Particle Count
     const isMobile = window.innerWidth < 768;
-    const particlesCount = isMobile ? 200 : 600; 
+    const particlesCount = isMobile ? 300 : 800; 
 
     const particlesGeometry = new THREE.BufferGeometry();
     const posArray = new Float32Array(particlesCount * 3);
@@ -195,7 +196,6 @@ function ThreeBackground() {
     const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
     scene.add(particlesMesh);
 
-    // Microservice Nodes
     const nodes = [];
     const nodeData = [
         { pos: [-4, 2, 0], color: 0x61dafb }, 
@@ -286,221 +286,240 @@ function ThreeBackground() {
 
 // --- Specific Views ---
 
+// FIX: Solid Header Background + Flexbox Layout for scrolling
 const SkillsView = () => (
-    <div className="p-4 md:p-8 h-full overflow-y-auto font-sans text-gray-300 custom-scrollbar animate-in fade-in slide-in-from-bottom-4 duration-500">
-        <h1 className="text-xl md:text-2xl font-bold mb-6 text-white flex items-center gap-2 sticky top-0 bg-[#1e1e1e] py-4 z-20 shadow-md border-b border-[#2d2d2d]">
-            <Braces className="text-yellow-400" /> Technical Capabilities
-        </h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pb-20">
-            
-            {/* Backend Card */}
-            <div className="bg-[#1f2428] border border-gray-700 rounded-lg p-5 hover:border-blue-500/50 transition-all hover:translate-y-[-2px]">
-                <div className="flex items-center gap-3 mb-4">
-                    <Server size={24} className="text-blue-400" />
-                    <h2 className="text-lg font-bold text-white">Backend Engineering</h2>
-                </div>
-                <div className="space-y-3">
-                    <div>
-                        <span className="text-xs text-gray-500 uppercase font-bold">Core</span>
-                        <div className="flex flex-wrap gap-2 mt-1">
-                            <span className="px-2 py-1 bg-blue-500/10 text-blue-300 rounded text-xs">Node.js</span>
-                            <span className="px-2 py-1 bg-green-500/10 text-green-300 rounded text-xs">Express.js</span>
-                            <span className="px-2 py-1 bg-yellow-500/10 text-yellow-300 rounded text-xs">FastAPI</span>
+    <div className="flex flex-col h-full font-sans text-gray-300">
+        {/* Fixed Header */}
+        <div className="flex-none p-6 bg-[#1e1e1e] border-b border-[#2d2d2d] z-20">
+            <h1 className="text-xl md:text-2xl font-bold text-white flex items-center gap-2">
+                <Braces className="text-yellow-400" /> Technical Capabilities
+            </h1>
+        </div>
+        
+        {/* Scrollable Content */}
+        <div className="flex-1 overflow-y-auto p-6 custom-scrollbar">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pb-10">
+                
+                {/* Backend Card */}
+                <div className="bg-[#1f2428] border border-gray-700 rounded-lg p-5 hover:border-blue-500/50 transition-all hover:translate-y-[-2px]">
+                    <div className="flex items-center gap-3 mb-4">
+                        <Server size={24} className="text-blue-400" />
+                        <h2 className="text-lg font-bold text-white">Backend Engineering</h2>
+                    </div>
+                    <div className="space-y-3">
+                        <div>
+                            <span className="text-xs text-gray-500 uppercase font-bold">Core</span>
+                            <div className="flex flex-wrap gap-2 mt-1">
+                                <span className="px-2 py-1 bg-blue-500/10 text-blue-300 rounded text-xs">Node.js</span>
+                                <span className="px-2 py-1 bg-green-500/10 text-green-300 rounded text-xs">Express.js</span>
+                                <span className="px-2 py-1 bg-yellow-500/10 text-yellow-300 rounded text-xs">FastAPI</span>
+                            </div>
+                        </div>
+                        <div>
+                            <span className="text-xs text-gray-500 uppercase font-bold">Architecture</span>
+                            <div className="flex flex-wrap gap-2 mt-1">
+                                <span className="px-2 py-1 bg-gray-700 text-gray-300 rounded text-xs">Microservices</span>
+                                <span className="px-2 py-1 bg-gray-700 text-gray-300 rounded text-xs">REST APIs</span>
+                            </div>
                         </div>
                     </div>
-                    <div>
-                        <span className="text-xs text-gray-500 uppercase font-bold">Architecture</span>
-                        <div className="flex flex-wrap gap-2 mt-1">
-                            <span className="px-2 py-1 bg-gray-700 text-gray-300 rounded text-xs">Microservices</span>
-                            <span className="px-2 py-1 bg-gray-700 text-gray-300 rounded text-xs">REST APIs</span>
+                </div>
+
+                {/* AI/ML Card */}
+                <div className="bg-[#1f2428] border border-gray-700 rounded-lg p-5 hover:border-purple-500/50 transition-all hover:translate-y-[-2px]">
+                     <div className="flex items-center gap-3 mb-4">
+                        <Brain size={24} className="text-purple-400" />
+                        <h2 className="text-lg font-bold text-white">AI Integration</h2>
+                    </div>
+                     <div className="space-y-3">
+                        <div>
+                            <span className="text-xs text-gray-500 uppercase font-bold">Libraries</span>
+                            <div className="flex flex-wrap gap-2 mt-1">
+                                <span className="px-2 py-1 bg-purple-500/10 text-purple-300 rounded text-xs">InsightFace</span>
+                                <span className="px-2 py-1 bg-blue-500/10 text-blue-300 rounded text-xs">OpenCV</span>
+                                <span className="px-2 py-1 bg-orange-500/10 text-orange-300 rounded text-xs">LangChain</span>
+                            </div>
+                        </div>
+                        <div className="text-sm text-gray-400">
+                            Specialized in integrating ML models (Face Rec, LLMs) into production-grade backend pipelines.
                         </div>
                     </div>
                 </div>
-            </div>
 
-            {/* AI/ML Card */}
-            <div className="bg-[#1f2428] border border-gray-700 rounded-lg p-5 hover:border-purple-500/50 transition-all hover:translate-y-[-2px]">
-                 <div className="flex items-center gap-3 mb-4">
-                    <Brain size={24} className="text-purple-400" />
-                    <h2 className="text-lg font-bold text-white">AI Integration</h2>
-                </div>
-                 <div className="space-y-3">
-                    <div>
-                        <span className="text-xs text-gray-500 uppercase font-bold">Libraries</span>
-                        <div className="flex flex-wrap gap-2 mt-1">
-                            <span className="px-2 py-1 bg-purple-500/10 text-purple-300 rounded text-xs">InsightFace</span>
-                            <span className="px-2 py-1 bg-blue-500/10 text-blue-300 rounded text-xs">OpenCV</span>
-                            <span className="px-2 py-1 bg-orange-500/10 text-orange-300 rounded text-xs">LangChain</span>
-                        </div>
+                {/* Database */}
+                <div className="bg-[#1f2428] border border-gray-700 rounded-lg p-5 hover:border-green-500/50 transition-all hover:translate-y-[-2px]">
+                    <div className="flex items-center gap-3 mb-4">
+                        <Database size={24} className="text-green-400" />
+                        <h2 className="text-lg font-bold text-white">Data Persistence</h2>
                     </div>
-                    <div className="text-sm text-gray-400">
-                        Specialized in integrating ML models (Face Rec, LLMs) into production-grade backend pipelines.
+                    <div className="flex flex-wrap gap-2">
+                        <span className="px-2 py-1 bg-gray-700 text-gray-300 rounded text-xs border border-gray-600">MySQL</span>
+                        <span className="px-2 py-1 bg-gray-700 text-gray-300 rounded text-xs border border-gray-600">MongoDB</span>
                     </div>
                 </div>
-            </div>
 
-            {/* Database */}
-            <div className="bg-[#1f2428] border border-gray-700 rounded-lg p-5 hover:border-green-500/50 transition-all hover:translate-y-[-2px]">
-                <div className="flex items-center gap-3 mb-4">
-                    <Database size={24} className="text-green-400" />
-                    <h2 className="text-lg font-bold text-white">Data Persistence</h2>
+                {/* DevOps */}
+                <div className="bg-[#1f2428] border border-gray-700 rounded-lg p-5 hover:border-orange-500/50 transition-all hover:translate-y-[-2px]">
+                    <div className="flex items-center gap-3 mb-4">
+                        <Cloud size={24} className="text-orange-400" />
+                        <h2 className="text-lg font-bold text-white">DevOps & Cloud</h2>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                        <span className="px-2 py-1 bg-blue-600/20 text-blue-300 rounded text-xs">Docker</span>
+                        <span className="px-2 py-1 bg-gray-600/20 text-gray-300 rounded text-xs">GitHub Actions</span>
+                        <span className="px-2 py-1 bg-orange-600/20 text-orange-300 rounded text-xs">AWS</span>
+                    </div>
                 </div>
-                <div className="flex flex-wrap gap-2">
-                    <span className="px-2 py-1 bg-gray-700 text-gray-300 rounded text-xs border border-gray-600">MySQL</span>
-                    <span className="px-2 py-1 bg-gray-700 text-gray-300 rounded text-xs border border-gray-600">MongoDB</span>
-                </div>
-            </div>
 
-            {/* DevOps */}
-            <div className="bg-[#1f2428] border border-gray-700 rounded-lg p-5 hover:border-orange-500/50 transition-all hover:translate-y-[-2px]">
-                <div className="flex items-center gap-3 mb-4">
-                    <Cloud size={24} className="text-orange-400" />
-                    <h2 className="text-lg font-bold text-white">DevOps & Cloud</h2>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                    <span className="px-2 py-1 bg-blue-600/20 text-blue-300 rounded text-xs">Docker</span>
-                    <span className="px-2 py-1 bg-gray-600/20 text-gray-300 rounded text-xs">GitHub Actions</span>
-                    <span className="px-2 py-1 bg-orange-600/20 text-orange-300 rounded text-xs">AWS</span>
-                </div>
             </div>
-
         </div>
     </div>
 );
 
+// FIX: Flexbox Layout for Projects
 const ProjectsView = () => (
-     <div className="p-4 md:p-8 h-full overflow-y-auto font-sans text-gray-300 custom-scrollbar animate-in fade-in slide-in-from-bottom-4 duration-500">
-        <h1 className="text-xl md:text-2xl font-bold mb-6 text-white flex items-center gap-2 sticky top-0 bg-[#1e1e1e] py-4 z-20 shadow-md border-b border-[#2d2d2d]">
-            <Briefcase className="text-yellow-400" /> Featured Projects
-        </h1>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pb-20">
-            
-            {/* Schoolix */}
-            <div className="bg-[#1f2428] rounded-lg border border-gray-700 overflow-hidden hover:shadow-xl transition-all group hover:translate-y-[-2px]">
-                <div className="h-2 bg-gradient-to-r from-blue-500 to-cyan-400"></div>
-                <div className="p-6">
-                    <div className="flex justify-between items-start mb-4">
-                        <h3 className="text-lg md:text-xl font-bold text-white">Schoolix ERP</h3>
-                        <span className="px-2 py-1 bg-green-900/50 text-green-400 text-[10px] md:text-xs rounded border border-green-700">Production</span>
-                    </div>
-                    <p className="text-xs md:text-sm text-gray-400 mb-4">
-                        Comprehensive school management platform built with microservice principles. Handles student records, billing, and automated reporting.
-                    </p>
-                    <div className="space-y-2 mb-4">
-                        <div className="flex items-center text-xs text-gray-500">
-                            <Box size={12} className="mr-2" /> MERN Stack, Docker, Caddy
-                        </div>
-                        <div className="flex items-center text-xs text-gray-500">
-                            <Cpu size={12} className="mr-2" /> 50% Efficiency Boost
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {/* AI Attendance */}
-            <div className="bg-[#1f2428] rounded-lg border border-gray-700 overflow-hidden hover:shadow-xl transition-all group hover:translate-y-[-2px]">
-                <div className="h-2 bg-gradient-to-r from-purple-500 to-pink-400"></div>
-                <div className="p-6">
-                     <div className="flex justify-between items-start mb-4">
-                        <h3 className="text-lg md:text-xl font-bold text-white">AI Face Attendance</h3>
-                        <span className="px-2 py-1 bg-blue-900/50 text-blue-400 text-[10px] md:text-xs rounded border border-blue-700">Microservice</span>
-                    </div>
-                    <p className="text-xs md:text-sm text-gray-400 mb-4">
-                        High-performance Python microservice using InsightFace for 96% accurate attendance marking. Integrated into main Node.js backend via REST.
-                    </p>
-                    <div className="space-y-2 mb-4">
-                        <div className="flex items-center text-xs text-gray-500">
-                            <Box size={12} className="mr-2" /> Python FastAPI, OpenCV
-                        </div>
-                        <div className="flex items-center text-xs text-gray-500">
-                            <Cpu size={12} className="mr-2" /> 70% Faster Processing
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-             {/* Chatbot Integration */}
-             <div className="bg-[#1f2428] rounded-lg border border-gray-700 overflow-hidden hover:shadow-xl transition-all group hover:translate-y-[-2px]">
-                <div className="h-2 bg-gradient-to-r from-yellow-500 to-orange-400"></div>
-                <div className="p-6">
-                     <div className="flex justify-between items-start mb-4">
-                        <h3 className="text-lg md:text-xl font-bold text-white">Intelligent Chatbot</h3>
-                        <span className="px-2 py-1 bg-yellow-900/50 text-yellow-400 text-[10px] md:text-xs rounded border border-yellow-700">AI Integration</span>
-                    </div>
-                    <p className="text-xs md:text-sm text-gray-400 mb-4">
-                        Natural language query assistant powered by LLM APIs. Fetches student/transport data via secure SQL queries without manual intervention.
-                    </p>
-                    <div className="space-y-2 mb-4">
-                        <div className="flex items-center text-xs text-gray-500">
-                            <MessageSquare size={12} className="mr-2" /> Node.js, LLM APIs, REST
-                        </div>
-                        <div className="flex items-center text-xs text-gray-500">
-                            <Cpu size={12} className="mr-2" /> Automated 80% Admin Queries
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+     <div className="flex flex-col h-full font-sans text-gray-300">
+        <div className="flex-none p-6 bg-[#1e1e1e] border-b border-[#2d2d2d] z-20">
+            <h1 className="text-xl md:text-2xl font-bold text-white flex items-center gap-2">
+                <Briefcase className="text-yellow-400" /> Featured Projects
+            </h1>
         </div>
+        
+        <div className="flex-1 overflow-y-auto p-6 custom-scrollbar">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pb-10">
+                
+                {/* Schoolix */}
+                <div className="bg-[#1f2428] rounded-lg border border-gray-700 overflow-hidden hover:shadow-xl transition-all group hover:translate-y-[-2px]">
+                    <div className="h-2 bg-gradient-to-r from-blue-500 to-cyan-400"></div>
+                    <div className="p-6">
+                        <div className="flex justify-between items-start mb-4">
+                            <h3 className="text-lg md:text-xl font-bold text-white">Schoolix ERP</h3>
+                            <span className="px-2 py-1 bg-green-900/50 text-green-400 text-[10px] md:text-xs rounded border border-green-700">Production</span>
+                        </div>
+                        <p className="text-xs md:text-sm text-gray-400 mb-4">
+                            Comprehensive school management platform built with microservice principles. Handles student records, billing, and automated reporting.
+                        </p>
+                        <div className="space-y-2 mb-4">
+                            <div className="flex items-center text-xs text-gray-500">
+                                <Box size={12} className="mr-2" /> MERN Stack, Docker, Caddy
+                            </div>
+                            <div className="flex items-center text-xs text-gray-500">
+                                <Cpu size={12} className="mr-2" /> 50% Efficiency Boost
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* AI Attendance */}
+                <div className="bg-[#1f2428] rounded-lg border border-gray-700 overflow-hidden hover:shadow-xl transition-all group hover:translate-y-[-2px]">
+                    <div className="h-2 bg-gradient-to-r from-purple-500 to-pink-400"></div>
+                    <div className="p-6">
+                         <div className="flex justify-between items-start mb-4">
+                            <h3 className="text-lg md:text-xl font-bold text-white">AI Face Attendance</h3>
+                            <span className="px-2 py-1 bg-blue-900/50 text-blue-400 text-[10px] md:text-xs rounded border border-blue-700">Microservice</span>
+                        </div>
+                        <p className="text-xs md:text-sm text-gray-400 mb-4">
+                            High-performance Python microservice using InsightFace for 96% accurate attendance marking. Integrated into main Node.js backend via REST.
+                        </p>
+                        <div className="space-y-2 mb-4">
+                            <div className="flex items-center text-xs text-gray-500">
+                                <Box size={12} className="mr-2" /> Python FastAPI, OpenCV
+                            </div>
+                            <div className="flex items-center text-xs text-gray-500">
+                                <Cpu size={12} className="mr-2" /> 70% Faster Processing
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                 {/* Chatbot Integration */}
+                 <div className="bg-[#1f2428] rounded-lg border border-gray-700 overflow-hidden hover:shadow-xl transition-all group hover:translate-y-[-2px]">
+                    <div className="h-2 bg-gradient-to-r from-yellow-500 to-orange-400"></div>
+                    <div className="p-6">
+                         <div className="flex justify-between items-start mb-4">
+                            <h3 className="text-lg md:text-xl font-bold text-white">Intelligent Chatbot</h3>
+                            <span className="px-2 py-1 bg-yellow-900/50 text-yellow-400 text-[10px] md:text-xs rounded border border-yellow-700">AI Integration</span>
+                        </div>
+                        <p className="text-xs md:text-sm text-gray-400 mb-4">
+                            Natural language query assistant powered by LLM APIs. Fetches student/transport data via secure SQL queries without manual intervention.
+                        </p>
+                        <div className="space-y-2 mb-4">
+                            <div className="flex items-center text-xs text-gray-500">
+                                <MessageSquare size={12} className="mr-2" /> Node.js, LLM APIs, REST
+                            </div>
+                            <div className="flex items-center text-xs text-gray-500">
+                                <Cpu size={12} className="mr-2" /> Automated 80% Admin Queries
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+         </div>
      </div>
 );
 
+// FIX: Flexbox Layout for Timeline
 const TimelineView = () => (
-    <div className="p-4 md:p-8 h-full overflow-y-auto text-gray-300 font-sans custom-scrollbar animate-in fade-in slide-in-from-bottom-4 duration-500">
-        <h1 className="text-xl md:text-2xl font-bold mb-8 text-white border-b border-gray-700 pb-4 sticky top-0 bg-[#1e1e1e] py-4 z-20 shadow-md">Career Timeline</h1>
+    <div className="flex flex-col h-full font-sans text-gray-300">
+        <div className="flex-none p-6 bg-[#1e1e1e] border-b border-[#2d2d2d] z-20">
+            <h1 className="text-xl md:text-2xl font-bold text-white">Career Timeline</h1>
+        </div>
         
-        <div className="relative border-l-2 border-blue-500/30 ml-3 space-y-12 pb-20">
-            
-            {/* Current */}
-            <div className="relative pl-8 group">
-                <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-blue-500 ring-4 ring-blue-500/20 group-hover:ring-blue-500/40 transition-all"></div>
-                <div className="bg-[#1f2428] p-4 rounded-lg border border-gray-700 hover:border-blue-500/50 transition-all shadow-lg hover:translate-x-1">
-                    <span className="text-xs font-mono text-blue-400">Jan 2025 - Present</span>
-                    <h3 className="text-base md:text-lg font-bold text-white mt-1">TATA Consultancy Services (TCS)</h3>
-                    <p className="text-xs md:text-sm text-gray-400 mb-2">Assistant System Engineer • Pune</p>
-                    <ul className="text-xs md:text-sm space-y-1 text-gray-300">
-                        <li className="flex items-start"><ChevronRight size={14} className="mt-1 mr-1 text-blue-500"/> Incident workflows & SLA Tracking</li>
-                        <li className="flex items-start"><ChevronRight size={14} className="mt-1 mr-1 text-blue-500"/> Power Automate flows for routing</li>
-                        <li className="flex items-start"><ChevronRight size={14} className="mt-1 mr-1 text-blue-500"/> Excel Automation (Python/Macros)</li>
-                    </ul>
+        <div className="flex-1 overflow-y-auto p-6 custom-scrollbar">
+            <div className="relative border-l-2 border-blue-500/30 ml-3 space-y-12 pb-10">
+                
+                {/* Current */}
+                <div className="relative pl-8 group">
+                    <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-blue-500 ring-4 ring-blue-500/20 group-hover:ring-blue-500/40 transition-all"></div>
+                    <div className="bg-[#1f2428] p-4 rounded-lg border border-gray-700 hover:border-blue-500/50 transition-all shadow-lg hover:translate-x-1">
+                        <span className="text-xs font-mono text-blue-400">Jan 2025 - Present</span>
+                        <h3 className="text-base md:text-lg font-bold text-white mt-1">TATA Consultancy Services (TCS)</h3>
+                        <p className="text-xs md:text-sm text-gray-400 mb-2">Assistant System Engineer • Pune</p>
+                        <ul className="text-xs md:text-sm space-y-1 text-gray-300">
+                            <li className="flex items-start"><ChevronRight size={14} className="mt-1 mr-1 text-blue-500"/> Incident workflows & SLA Tracking</li>
+                            <li className="flex items-start"><ChevronRight size={14} className="mt-1 mr-1 text-blue-500"/> Power Automate flows for routing</li>
+                            <li className="flex items-start"><ChevronRight size={14} className="mt-1 mr-1 text-blue-500"/> Excel Automation (Python/Macros)</li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
 
-            {/* Project/Freelance */}
-            <div className="relative pl-8 group">
-                <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-green-500 ring-4 ring-green-500/20 group-hover:ring-green-500/40 transition-all"></div>
-                <div className="bg-[#1f2428] p-4 rounded-lg border border-gray-700 hover:border-green-500/50 transition-all shadow-lg hover:translate-x-1">
-                    <span className="text-xs font-mono text-green-400">2024</span>
-                    <h3 className="text-base md:text-lg font-bold text-white mt-1">Freelance & Projects</h3>
-                    <p className="text-xs md:text-sm text-gray-400 mb-2">Full Stack Development</p>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-                        <div className="bg-[#0d1117] p-2 rounded border border-gray-800">
-                            <h4 className="font-bold text-green-400 text-xs">Schoolix ERP</h4>
-                            <p className="text-[10px] md:text-xs text-gray-500">MERN Stack, Docker, VPS</p>
-                        </div>
-                        <div className="bg-[#0d1117] p-2 rounded border border-gray-800">
-                            <h4 className="font-bold text-purple-400 text-xs">AI Attendance</h4>
-                            <p className="text-[10px] md:text-xs text-gray-500">Python, InsightFace</p>
-                        </div>
-                         <div className="bg-[#0d1117] p-2 rounded border border-gray-800">
-                            <h4 className="font-bold text-yellow-400 text-xs">Intelligent Chatbot</h4>
-                            <p className="text-[10px] md:text-xs text-gray-500">Node.js, LLM, SQL</p>
+                {/* Project/Freelance */}
+                <div className="relative pl-8 group">
+                    <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-green-500 ring-4 ring-green-500/20 group-hover:ring-green-500/40 transition-all"></div>
+                    <div className="bg-[#1f2428] p-4 rounded-lg border border-gray-700 hover:border-green-500/50 transition-all shadow-lg hover:translate-x-1">
+                        <span className="text-xs font-mono text-green-400">2024</span>
+                        <h3 className="text-base md:text-lg font-bold text-white mt-1">Freelance & Projects</h3>
+                        <p className="text-xs md:text-sm text-gray-400 mb-2">Full Stack Development</p>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                            <div className="bg-[#0d1117] p-2 rounded border border-gray-800">
+                                <h4 className="font-bold text-green-400 text-xs">Schoolix ERP</h4>
+                                <p className="text-[10px] md:text-xs text-gray-500">MERN Stack, Docker, VPS</p>
+                            </div>
+                            <div className="bg-[#0d1117] p-2 rounded border border-gray-800">
+                                <h4 className="font-bold text-purple-400 text-xs">AI Attendance</h4>
+                                <p className="text-[10px] md:text-xs text-gray-500">Python, InsightFace</p>
+                            </div>
+                             <div className="bg-[#0d1117] p-2 rounded border border-gray-800">
+                                <h4 className="font-bold text-yellow-400 text-xs">Intelligent Chatbot</h4>
+                                <p className="text-[10px] md:text-xs text-gray-500">Node.js, LLM, SQL</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            {/* Education */}
-            <div className="relative pl-8 group">
-                <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-yellow-500 ring-4 ring-yellow-500/20 group-hover:ring-yellow-500/40 transition-all"></div>
-                <div className="bg-[#1f2428] p-4 rounded-lg border border-gray-700 hover:border-yellow-500/50 transition-all shadow-lg hover:translate-x-1">
-                    <span className="text-xs font-mono text-yellow-400">2020 - 2024</span>
-                    <h3 className="text-base md:text-lg font-bold text-white mt-1">Government College of Engineering</h3>
-                    <p className="text-xs md:text-sm text-gray-400">B.Tech Instrumentation</p>
-                    <p className="text-[10px] md:text-xs text-gray-500 mt-1">CGPA: 8.13 / 10.0</p>
+                {/* Education */}
+                <div className="relative pl-8 group">
+                    <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-yellow-500 ring-4 ring-yellow-500/20 group-hover:ring-yellow-500/40 transition-all"></div>
+                    <div className="bg-[#1f2428] p-4 rounded-lg border border-gray-700 hover:border-yellow-500/50 transition-all shadow-lg hover:translate-x-1">
+                        <span className="text-xs font-mono text-yellow-400">2020 - 2024</span>
+                        <h3 className="text-base md:text-lg font-bold text-white mt-1">Government College of Engineering</h3>
+                        <p className="text-xs md:text-sm text-gray-400">B.Tech Instrumentation</p>
+                        <p className="text-[10px] md:text-xs text-gray-500 mt-1">CGPA: 8.13 / 10.0</p>
+                    </div>
                 </div>
-            </div>
 
+            </div>
         </div>
     </div>
 );
@@ -648,10 +667,12 @@ export default function App() {
     <div className="relative w-full h-[100dvh] bg-[#0d1117] text-gray-300 font-sans overflow-hidden flex items-center justify-center">
       <ThreeBackground />
 
-      {/* Main Container - Full Screen Native Look */}
+      {/* Main Container - Centered, Smaller Window */}
       <div 
-        className="relative w-full h-full flex flex-col overflow-hidden bg-[#1e1e1e]/95 backdrop-blur-sm z-10"
+        className="relative w-[90vw] h-[85vh] md:w-[85vw] md:h-[80vh] max-w-[1400px] flex flex-col overflow-hidden bg-[#1e1e1e] rounded-lg border border-[#333] shadow-2xl z-10"
       >
+        {/* Glow Effect behind window */}
+        <div className="absolute -inset-[1px] bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-lg blur-sm -z-10"></div>
         
         {/* Title Bar */}
         <div className="h-10 md:h-8 bg-[#1e1e1e] flex items-center justify-between px-2 select-none border-b border-[#2d2d2d] shrink-0 z-50">
@@ -863,7 +884,7 @@ export default function App() {
         </div>
 
         {/* Status Bar */}
-        <div className="h-6 bg-[#007acc] text-white flex items-center justify-between px-3 text-xs z-20 font-sans select-none shrink-0">
+        <div className="h-6 bg-[#007acc] text-white flex items-center justify-between px-3 text-xs z-20 font-sans select-none shrink-0 rounded-b-lg">
             <div className="flex items-center gap-3">
                 <div className="flex items-center gap-1 hover:bg-white/20 px-1 rounded cursor-pointer">
                     <GitGraph size={10} md:size={12} />
