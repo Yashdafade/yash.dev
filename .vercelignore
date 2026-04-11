@@ -1,0 +1,5 @@
+README.md
+dist
+.vscode
+.idea
+*.log
