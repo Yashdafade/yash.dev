@@ -41,7 +41,7 @@ const CONNECT_SH_CONTENT = [
   'done',
   '',
   'echo ""',
-  'echo "# Let\'s build something key."',
+  'echo "# Let\'s build something."',
 ].join('\n');
 
 export const RESUME_DATA = {
@@ -114,7 +114,7 @@ class ProjectPortfolio:
             "Solved TRL/ROCm compatibility issues, switched to bfloat16 for stable inference"
         ]
         repo = "github.com/Yashdafade/TelcoBot-QLoRA"
-        return {"status": "Complete", "stack": stack, "repo": repo}
+        return {"status": "Fine-Tuned LLM", "stack": stack, "repo": repo}
 
     def init_face_recognition(self):
         """
@@ -143,21 +143,21 @@ class ProjectPortfolio:
             "Containerized with Docker + Caddy, CI/CD via GitHub Actions on a Linux VPS"
         ]
         repo = "Private repo — architecture walkthrough available on request"
-        return {"status": "Personal Project", "stack": stack, "repo": repo}
+        return {"status": "Full-Stack ERP", "stack": stack, "repo": repo}
 
     def init_nl2sql_chatbot(self):
         """
         NL2SQL Chatbot — Natural Language Query Engine (Schoolix module)
         Natural-language interface over the Schoolix database; explores LLM-to-SQL without embeddings.
         """
-        stack = ["Node.js", "Gemini API", "PostgreSQL"]
+        stack = ["Node.js", "Gemini API (gemini-3.1-flash-lite-preview)", "PostgreSQL"]
         highlights = [
             "Natural-language interface over the Schoolix database; explores LLM-to-SQL without embeddings",
             "Schema-aware prompts with explicit table-relationship lineage rules",
             "Keyword-based intent routing before the LLM call to reduce hallucination",
             "Role-aware: generated SQL scoped to the authenticated user's access level"
         ]
-        return {"status": "AI Integration", "stack": stack}
+        return {"status": "AI Query Engine", "stack": stack}
 
     def build_medibill(self):
         """
@@ -171,7 +171,7 @@ class ProjectPortfolio:
             "Row-level security isolating each user's records at the database layer"
         ]
         repo = "Private repo — TypeScript + Supabase learning project"
-        return {"status": "Learning Project", "stack": stack, "repo": repo}
+        return {"status": "Full-Stack App", "stack": stack, "repo": repo}
 `
   },
 

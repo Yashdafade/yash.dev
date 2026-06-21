@@ -116,11 +116,11 @@ export default function ProjectsView() {
 
           <ProjectCard
             title="NL2SQL Chatbot"
-            status="AI Integration"
+            status="AI Query Engine"
             statusColor="yellow"
             gradient="from-yellow-500 to-orange-400"
             description="Natural-language interface over the Schoolix database that translates plain English queries into SQL without using embeddings."
-            stack="Node.js, Gemini API, PostgreSQL"
+            stack="Node.js, Gemini API (gemini-3.1-flash-lite-preview), PostgreSQL"
             metrics={[
               "Schema-aware prompts with explicit table lineage rules",
               "Keyword-based intent routing before LLM call to reduce hallucination",
@@ -132,7 +132,7 @@ export default function ProjectsView() {
 
           <ProjectCard
             title="MediBill"
-            status="Learning Project"
+            status="Full-Stack App"
             statusColor="green"
             gradient="from-green-500 to-teal-400"
             description="Clinic billing and patient management application built to learn TypeScript, Supabase, and Postgres row-level security."
