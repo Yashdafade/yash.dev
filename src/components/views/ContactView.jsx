@@ -51,8 +51,8 @@ export default function ContactView() {
                 <div className="absolute inset-0 w-4 h-4 bg-green-500 rounded-full animate-ping opacity-40"></div>
               </div>
               <div>
-                <p className="text-green-400 font-semibold text-sm">Available for Opportunities</p>
-                <p className="text-xs text-gray-400 mt-0.5">Backend Developer • Microservices • Cloud Native • AI Integration</p>
+                <p className="text-green-400 font-semibold text-sm">Actively Interviewing</p>
+                <p className="text-xs text-gray-400 mt-0.5">Backend Developer • Microservices • AI Integration</p>
               </div>
             </div>
           </AnimatedCard>
