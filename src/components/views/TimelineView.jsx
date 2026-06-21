@@ -61,47 +61,42 @@ export default function TimelineView() {
 
           <TimelineEntry
             period="Jan 2025 — Present"
-            title="Tata Consultancy Services (TCS)"
+            title="Tata Consultancy Services"
             role="Assistant System Engineer"
             location="Pune, India"
             color="blue"
             delay={0}
             highlights={[
-              "Managing ServiceNow incident workflows & ensuring SLA compliance across enterprise clients",
-              "Built Power Automate flows that automated ticket routing, reducing manual triage by 40%",
-              "Developed Python & VBA automation scripts for Excel reporting, cutting manual effort by 60%",
-              "Cross-team coordination for enterprise service delivery and escalation management"
+              "Ticket lifecycle management and SLA reporting via Ivanti ISM",
+              "Built Chrome DevTools automation scripts to detect new ticket arrivals and trigger priority-based audio alerts",
+              "Excel reporting automation using Office Scripts (TypeScript) for pivot-based SLA dashboards"
             ]}
-            technologies={["ServiceNow", "Power Automate", "Python", "Excel VBA", "ITIL"]}
           />
 
           <TimelineEntry
             period="2024"
-            title="Independent Engineering"
-            role="Full Stack Developer & AI Engineer"
-            location="Remote"
+            title="Independent Projects"
+            role="Backend Developer"
+            location="Pune, India"
             color="green"
             delay={100}
             highlights={[
-              "Built & deployed Schoolix ERP from scratch for a real school client — now serving 500+ students",
-              "Engineered face recognition microservice with InsightFace achieving 96% accuracy in production",
-              "Integrated LLM-powered chatbot that automated 80% of admin queries with natural language to SQL",
-              "Designed & shipped MediBill clinic management platform with Supabase backend"
+              "Designed and deployed Schoolix, a full-stack school ERP, to learn production backend + DevOps",
+              "Built a face-recognition microservice (96% accuracy) and an NL2SQL chatbot over the same system"
             ]}
-            technologies={["Node.js", "React", "Python", "FastAPI", "Docker", "MongoDB", "OpenAI", "Supabase"]}
+            technologies={["Node.js", "React", "Python", "Docker", "FastAPI", "PostgreSQL"]}
           />
 
           <TimelineEntry
             period="2020 — 2024"
-            title="Government College of Engineering, Chandrapur"
-            role="B.Tech Instrumentation Engineering"
+            title="Govt. College of Engineering, Chandrapur"
+            role="B.Tech, Instrumentation Engineering"
             location="Maharashtra, India"
             color="yellow"
             delay={200}
             highlights={[
               "CGPA: 8.13 / 10.0",
-              "Self-taught full-stack web development alongside core engineering curriculum",
-              "Built multiple production-grade projects during final year, gaining real-world deployment experience"
+              "Self-taught backend development alongside the core curriculum"
             ]}
           />
 

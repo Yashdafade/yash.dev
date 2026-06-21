@@ -60,54 +60,90 @@ export default function ProjectsView() {
         <h1 className="text-xl md:text-2xl font-bold text-white flex items-center gap-2">
           <Briefcase className="text-yellow-400" /> Featured Projects
         </h1>
-        <p className="text-xs text-gray-500 mt-1">Production systems & experimental prototypes</p>
+        <p className="text-xs text-gray-500 mt-1">Personal builds & AI integration systems</p>
       </div>
 
       <div className="flex-1 overflow-y-auto p-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 pb-10">
 
           <ProjectCard
-            title="Schoolix ERP"
-            status="Production"
-            statusColor="green"
-            gradient="from-blue-500 to-cyan-400"
-            description="Comprehensive school management platform serving 500+ students. Handles student records, automated fee billing, attendance tracking, transport management, and role-based dashboards for Admin, Teacher, and Parent users."
-            stack="MERN Stack, Docker, Caddy, GitHub Actions"
-            metrics={["500+ Active Students", "50% Admin Efficiency Boost", "99.5% Uptime"]}
+            title="TelcoBot-QLoRA"
+            status="Fine-Tuned LLM"
+            statusColor="purple"
+            gradient="from-purple-500 to-indigo-400"
+            description="Fine-tuned Qwen2.5-1.5B-Instruct with QLoRA on a 20k telecom support dataset during the TCS x AMD AI Hackathon 2026."
+            stack="Python, Qwen2.5-1.5B, QLoRA, Hugging Face, AMD MI300X (ROCm)"
+            metrics={[
+              "Fine-tuned Qwen2.5-1.5B-Instruct with QLoRA (4-bit NF4, LoRA r=16)",
+              "Trained on AMD MI300X in under two hours during Hackathon",
+              "TRL/ROCm compatibility resolved; bfloat16 stable inference"
+            ]}
+            github="https://github.com/Yashdafade/TelcoBot-QLoRA"
             delay={0}
           />
 
           <ProjectCard
-            title="AI Face Attendance"
+            title="Face-Recognition-Microservice"
             status="Microservice"
             statusColor="blue"
-            gradient="from-purple-500 to-pink-400"
-            description="High-performance Python microservice using InsightFace for contactless biometric attendance. Generates 512-dimensional ArcFace embeddings and matches against an enrolled student database via cosine similarity. Plugs into Schoolix via REST API bridge."
+            gradient="from-pink-500 to-rose-400"
+            description="Standalone microservice that generates 512-dimensional ArcFace embeddings on enrollment and cosine-matches at scan time for biometric attendance."
             stack="Python, FastAPI, InsightFace, OpenCV"
-            metrics={["96% Recognition Accuracy", "Sub-second Inference", "ArcFace Embeddings"]}
+            metrics={[
+              "~96% match accuracy on 200-face test set",
+              "Sub-second scan time latency",
+              "Fully decoupled and pluggable REST service"
+            ]}
+            github="https://github.com/Yashdafade/Face-Recognition-Microservice"
             delay={80}
           />
 
           <ProjectCard
-            title="Intelligent Chatbot"
-            status="AI Integration"
-            statusColor="yellow"
-            gradient="from-yellow-500 to-orange-400"
-            description="Natural language query assistant that translates plain English into SQL queries. Handles student data, fee records, transport schedules, and attendance lookups. Features context-aware multi-turn conversations with safety guards on generated SQL."
-            stack="Node.js, OpenAI API, MySQL, Express"
-            metrics={["80% Query Automation", "Multi-turn Context", "SQL Safety Guards"]}
+            title="Schoolix"
+            status="Full-Stack ERP"
+            statusColor="green"
+            gradient="from-blue-500 to-cyan-400"
+            description="Full-stack school management platform designed end-to-end to learn production backend architecture, security, and DevOps."
+            stack="Node.js, Express, React, PostgreSQL, Docker, GitHub Actions, Caddy"
+            metrics={[
+              "Modules: enrollment, billing, library, inventory, certificates, reporting",
+              "JWT authentication with role-based access control (admin, teacher, staff)",
+              "Docker + Caddy deployments with CI/CD via GitHub Actions on a Linux VPS"
+            ]}
+            github=""
             delay={160}
           />
 
           <ProjectCard
+            title="NL2SQL Chatbot"
+            status="AI Integration"
+            statusColor="yellow"
+            gradient="from-yellow-500 to-orange-400"
+            description="Natural-language interface over the Schoolix database that translates plain English queries into SQL without using embeddings."
+            stack="Node.js, Gemini API, PostgreSQL"
+            metrics={[
+              "Schema-aware prompts with explicit table lineage rules",
+              "Keyword-based intent routing before LLM call to reduce hallucination",
+              "Role-aware generated SQL scoped to authenticated user access level"
+            ]}
+            github=""
+            delay={240}
+          />
+
+          <ProjectCard
             title="MediBill"
-            status="Production"
+            status="Learning Project"
             statusColor="green"
             gradient="from-green-500 to-teal-400"
-            description="Full-featured clinic billing and patient management system for medical practitioners. Includes rich-text clinical notes via TipTap editor, invoice generation, payment ledger tracking, and automated email notifications to doctors."
-            stack="React, Supabase (PostgreSQL), TipTap, Vercel"
-            metrics={["Patient Records + Clinical Notes", "Invoice & Payment Ledger", "Email Notifications"]}
-            delay={240}
+            description="Clinic billing and patient management application built to learn TypeScript, Supabase, and Postgres row-level security."
+            stack="React, TypeScript, Vite, Supabase"
+            metrics={[
+              "Custom charge line items and installment payment tracking",
+              "TipTap rich-text patient notes editor",
+              "Row-level security isolating each user's records at database layer"
+            ]}
+            github=""
+            delay={320}
           />
 
         </div>

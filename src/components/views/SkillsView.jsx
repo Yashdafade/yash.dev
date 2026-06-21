@@ -40,36 +40,30 @@ export default function SkillsView() {
 
           {/* Backend */}
           <AnimatedCard delay={0}>
-            <div className="card-hover bg-[#1f2428] border border-gray-700/60 rounded-lg p-5 hover:border-blue-500/50 h-full">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-9 h-9 rounded-lg bg-blue-500/10 flex items-center justify-center">
-                  <Server size={20} className="text-blue-400" />
-                </div>
-                <h2 className="text-base font-bold text-white">Backend Engineering</h2>
-              </div>
-              <div className="space-y-3">
-                <div>
-                  <SkillCategory label="Core" />
-                  <div className="flex flex-wrap gap-1.5 mt-1.5">
-                    <SkillTag color="blue">Node.js</SkillTag>
-                    <SkillTag color="blue">Express.js</SkillTag>
-                    <SkillTag color="yellow">Python</SkillTag>
-                    <SkillTag color="green">FastAPI</SkillTag>
+            <div className="card-hover bg-[#1f2428] border border-gray-700/60 rounded-lg p-5 hover:border-blue-500/50 h-full flex flex-col justify-between">
+              <div>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-9 h-9 rounded-lg bg-blue-500/10 flex items-center justify-center">
+                    <Server size={20} className="text-blue-400" />
                   </div>
+                  <h2 className="text-base font-bold text-white">Backend Engineering</h2>
                 </div>
-                <div>
-                  <SkillCategory label="Architecture" />
-                  <div className="flex flex-wrap gap-1.5 mt-1.5">
-                    <SkillTag color="gray">Microservices</SkillTag>
-                    <SkillTag color="gray">REST APIs</SkillTag>
-                    <SkillTag color="gray">Event-Driven</SkillTag>
+                <div className="space-y-4">
+                  <div>
+                    <SkillCategory label="Production Used" />
+                    <div className="flex flex-wrap gap-1.5 mt-1.5">
+                      <SkillTag color="blue">Node.js</SkillTag>
+                      <SkillTag color="blue">Express.js</SkillTag>
+                      <SkillTag color="yellow">Python</SkillTag>
+                    </div>
                   </div>
-                </div>
-                <div>
-                  <SkillCategory label="Auth" />
-                  <div className="flex flex-wrap gap-1.5 mt-1.5">
-                    <SkillTag color="cyan">JWT</SkillTag>
-                    <SkillTag color="cyan">RBAC</SkillTag>
+                  <div>
+                    <SkillCategory label="Working Knowledge" />
+                    <div className="flex flex-wrap gap-1.5 mt-1.5">
+                      <SkillTag color="green">FastAPI</SkillTag>
+                      <SkillTag color="gray">Microservices</SkillTag>
+                      <SkillTag color="gray">REST APIs</SkillTag>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -78,34 +72,29 @@ export default function SkillsView() {
 
           {/* Frontend */}
           <AnimatedCard delay={80}>
-            <div className="card-hover bg-[#1f2428] border border-gray-700/60 rounded-lg p-5 hover:border-cyan-500/50 h-full">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-9 h-9 rounded-lg bg-cyan-500/10 flex items-center justify-center">
-                  <Monitor size={20} className="text-cyan-400" />
-                </div>
-                <h2 className="text-base font-bold text-white">Frontend Development</h2>
-              </div>
-              <div className="space-y-3">
-                <div>
-                  <SkillCategory label="Frameworks" />
-                  <div className="flex flex-wrap gap-1.5 mt-1.5">
-                    <SkillTag color="cyan">React</SkillTag>
-                    <SkillTag color="cyan">Next.js</SkillTag>
-                    <SkillTag color="purple">Vite</SkillTag>
+            <div className="card-hover bg-[#1f2428] border border-gray-700/60 rounded-lg p-5 hover:border-cyan-500/50 h-full flex flex-col justify-between">
+              <div>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-9 h-9 rounded-lg bg-cyan-500/10 flex items-center justify-center">
+                    <Monitor size={20} className="text-cyan-400" />
                   </div>
+                  <h2 className="text-base font-bold text-white">Frontend Development</h2>
                 </div>
-                <div>
-                  <SkillCategory label="Styling" />
-                  <div className="flex flex-wrap gap-1.5 mt-1.5">
-                    <SkillTag color="blue">Tailwind CSS</SkillTag>
-                    <SkillTag color="gray">Vanilla CSS</SkillTag>
+                <div className="space-y-4">
+                  <div>
+                    <SkillCategory label="Production Used" />
+                    <div className="flex flex-wrap gap-1.5 mt-1.5">
+                      <SkillTag color="cyan">React</SkillTag>
+                      <SkillTag color="purple">Vite</SkillTag>
+                      <SkillTag color="blue">Tailwind CSS</SkillTag>
+                      <SkillTag color="blue">TypeScript</SkillTag>
+                    </div>
                   </div>
-                </div>
-                <div>
-                  <SkillCategory label="Libraries" />
-                  <div className="flex flex-wrap gap-1.5 mt-1.5">
-                    <SkillTag color="green">Three.js</SkillTag>
-                    <SkillTag color="orange">TipTap Editor</SkillTag>
+                  <div>
+                    <SkillCategory label="Working Knowledge" />
+                    <div className="flex flex-wrap gap-1.5 mt-1.5">
+                      <SkillTag color="green">Three.js</SkillTag>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -114,33 +103,30 @@ export default function SkillsView() {
 
           {/* AI/ML */}
           <AnimatedCard delay={160}>
-            <div className="card-hover bg-[#1f2428] border border-gray-700/60 rounded-lg p-5 hover:border-purple-500/50 h-full">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-9 h-9 rounded-lg bg-purple-500/10 flex items-center justify-center">
-                  <Brain size={20} className="text-purple-400" />
-                </div>
-                <h2 className="text-base font-bold text-white">AI & Machine Learning</h2>
-              </div>
-              <div className="space-y-3">
-                <div>
-                  <SkillCategory label="Computer Vision" />
-                  <div className="flex flex-wrap gap-1.5 mt-1.5">
-                    <SkillTag color="purple">InsightFace</SkillTag>
-                    <SkillTag color="blue">OpenCV</SkillTag>
+            <div className="card-hover bg-[#1f2428] border border-gray-700/60 rounded-lg p-5 hover:border-purple-500/50 h-full flex flex-col justify-between">
+              <div>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-9 h-9 rounded-lg bg-purple-500/10 flex items-center justify-center">
+                    <Brain size={20} className="text-purple-400" />
                   </div>
+                  <h2 className="text-base font-bold text-white">AI & Machine Learning</h2>
                 </div>
-                <div>
-                  <SkillCategory label="LLM Integration" />
-                  <div className="flex flex-wrap gap-1.5 mt-1.5">
-                    <SkillTag color="green">OpenAI APIs</SkillTag>
-                    <SkillTag color="orange">LangChain</SkillTag>
+                <div className="space-y-4">
+                  <div>
+                    <SkillCategory label="Production Used" />
+                    <div className="flex flex-wrap gap-1.5 mt-1.5">
+                      <SkillTag color="purple">Gemini API</SkillTag>
+                      <SkillTag color="green">NL2SQL</SkillTag>
+                    </div>
                   </div>
-                </div>
-                <div>
-                  <SkillCategory label="Voice AI" />
-                  <div className="flex flex-wrap gap-1.5 mt-1.5">
-                    <SkillTag color="cyan">Deepgram</SkillTag>
-                    <SkillTag color="pink">LiveKit</SkillTag>
+                  <div>
+                    <SkillCategory label="Working Knowledge" />
+                    <div className="flex flex-wrap gap-1.5 mt-1.5">
+                      <SkillTag color="orange">QLoRA Fine-Tuning</SkillTag>
+                      <SkillTag color="purple">InsightFace</SkillTag>
+                      <SkillTag color="blue">OpenCV</SkillTag>
+                      <SkillTag color="gray">Hugging Face</SkillTag>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -149,30 +135,29 @@ export default function SkillsView() {
 
           {/* Database */}
           <AnimatedCard delay={240}>
-            <div className="card-hover bg-[#1f2428] border border-gray-700/60 rounded-lg p-5 hover:border-green-500/50 h-full">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-9 h-9 rounded-lg bg-green-500/10 flex items-center justify-center">
-                  <Database size={20} className="text-green-400" />
-                </div>
-                <h2 className="text-base font-bold text-white">Database & Storage</h2>
-              </div>
-              <div className="space-y-3">
-                <div>
-                  <SkillCategory label="Relational" />
-                  <div className="flex flex-wrap gap-1.5 mt-1.5">
-                    <SkillTag color="blue">MySQL</SkillTag>
-                    <SkillTag color="green">PostgreSQL</SkillTag>
-                    <SkillTag color="green">Supabase</SkillTag>
+            <div className="card-hover bg-[#1f2428] border border-gray-700/60 rounded-lg p-5 hover:border-green-500/50 h-full flex flex-col justify-between">
+              <div>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-9 h-9 rounded-lg bg-green-500/10 flex items-center justify-center">
+                    <Database size={20} className="text-green-400" />
                   </div>
+                  <h2 className="text-base font-bold text-white">Database & Storage</h2>
                 </div>
-                <div>
-                  <SkillCategory label="NoSQL" />
-                  <div className="flex flex-wrap gap-1.5 mt-1.5">
-                    <SkillTag color="green">MongoDB</SkillTag>
+                <div className="space-y-4">
+                  <div>
+                    <SkillCategory label="Production Used" />
+                    <div className="flex flex-wrap gap-1.5 mt-1.5">
+                      <SkillTag color="green">PostgreSQL</SkillTag>
+                      <SkillTag color="blue">MySQL</SkillTag>
+                      <SkillTag color="green">Supabase</SkillTag>
+                    </div>
                   </div>
-                </div>
-                <div className="text-xs text-gray-500 mt-2">
-                  Query optimization, indexing, aggregation pipelines
+                  <div>
+                    <SkillCategory label="Working Knowledge" />
+                    <div className="flex flex-wrap gap-1.5 mt-1.5">
+                      <SkillTag color="green">MongoDB</SkillTag>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -180,35 +165,31 @@ export default function SkillsView() {
 
           {/* DevOps */}
           <AnimatedCard delay={320}>
-            <div className="card-hover bg-[#1f2428] border border-gray-700/60 rounded-lg p-5 hover:border-orange-500/50 h-full">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-9 h-9 rounded-lg bg-orange-500/10 flex items-center justify-center">
-                  <Cloud size={20} className="text-orange-400" />
-                </div>
-                <h2 className="text-base font-bold text-white">DevOps & Cloud</h2>
-              </div>
-              <div className="space-y-3">
-                <div>
-                  <SkillCategory label="Containers" />
-                  <div className="flex flex-wrap gap-1.5 mt-1.5">
-                    <SkillTag color="blue">Docker</SkillTag>
-                    <SkillTag color="blue">Docker Compose</SkillTag>
+            <div className="card-hover bg-[#1f2428] border border-gray-700/60 rounded-lg p-5 hover:border-orange-500/50 h-full flex flex-col justify-between">
+              <div>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-9 h-9 rounded-lg bg-orange-500/10 flex items-center justify-center">
+                    <Cloud size={20} className="text-orange-400" />
                   </div>
+                  <h2 className="text-base font-bold text-white">DevOps & Cloud</h2>
                 </div>
-                <div>
-                  <SkillCategory label="CI/CD & Cloud" />
-                  <div className="flex flex-wrap gap-1.5 mt-1.5">
-                    <SkillTag color="gray">GitHub Actions</SkillTag>
-                    <SkillTag color="orange">AWS</SkillTag>
-                    <SkillTag color="gray">Vercel</SkillTag>
+                <div className="space-y-4">
+                  <div>
+                    <SkillCategory label="Production Used" />
+                    <div className="flex flex-wrap gap-1.5 mt-1.5">
+                      <SkillTag color="blue">Docker</SkillTag>
+                      <SkillTag color="gray">GitHub Actions</SkillTag>
+                      <SkillTag color="gray">CI/CD</SkillTag>
+                      <SkillTag color="green">Caddy</SkillTag>
+                      <SkillTag color="green">Nginx</SkillTag>
+                    </div>
                   </div>
-                </div>
-                <div>
-                  <SkillCategory label="Servers" />
-                  <div className="flex flex-wrap gap-1.5 mt-1.5">
-                    <SkillTag color="green">Nginx</SkillTag>
-                    <SkillTag color="green">Caddy</SkillTag>
-                    <SkillTag color="gray">Ubuntu</SkillTag>
+                  <div>
+                    <SkillCategory label="Working Knowledge" />
+                    <div className="flex flex-wrap gap-1.5 mt-1.5">
+                      <SkillTag color="orange">AWS EC2</SkillTag>
+                      <SkillTag color="gray">Linux server admin</SkillTag>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -217,35 +198,28 @@ export default function SkillsView() {
 
           {/* Tools */}
           <AnimatedCard delay={400}>
-            <div className="card-hover bg-[#1f2428] border border-gray-700/60 rounded-lg p-5 hover:border-pink-500/50 h-full">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-9 h-9 rounded-lg bg-pink-500/10 flex items-center justify-center">
-                  <Wrench size={20} className="text-pink-400" />
-                </div>
-                <h2 className="text-base font-bold text-white">Tools & Workflow</h2>
-              </div>
-              <div className="space-y-3">
-                <div>
-                  <SkillCategory label="Development" />
-                  <div className="flex flex-wrap gap-1.5 mt-1.5">
-                    <SkillTag color="orange">Git</SkillTag>
-                    <SkillTag color="blue">VS Code</SkillTag>
-                    <SkillTag color="orange">Postman</SkillTag>
+            <div className="card-hover bg-[#1f2428] border border-gray-700/60 rounded-lg p-5 hover:border-pink-500/50 h-full flex flex-col justify-between">
+              <div>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-9 h-9 rounded-lg bg-pink-500/10 flex items-center justify-center">
+                    <Wrench size={20} className="text-pink-400" />
                   </div>
+                  <h2 className="text-base font-bold text-white">Tools & Workflow</h2>
                 </div>
-                <div>
-                  <SkillCategory label="Automation" />
-                  <div className="flex flex-wrap gap-1.5 mt-1.5">
-                    <SkillTag color="blue">Power Automate</SkillTag>
-                    <SkillTag color="yellow">Python Scripting</SkillTag>
-                    <SkillTag color="green">VBA Macros</SkillTag>
+                <div className="space-y-4">
+                  <div>
+                    <SkillCategory label="Production Used" />
+                    <div className="flex flex-wrap gap-1.5 mt-1.5">
+                      <SkillTag color="orange">Git</SkillTag>
+                      <SkillTag color="orange">Postman</SkillTag>
+                      <SkillTag color="gray">Linux</SkillTag>
+                    </div>
                   </div>
-                </div>
-                <div>
-                  <SkillCategory label="OS" />
-                  <div className="flex flex-wrap gap-1.5 mt-1.5">
-                    <SkillTag color="gray">Linux (Ubuntu)</SkillTag>
-                    <SkillTag color="gray">Windows</SkillTag>
+                  <div>
+                    <SkillCategory label="Working Knowledge" />
+                    <div className="flex flex-wrap gap-1.5 mt-1.5">
+                      <SkillTag color="blue">n8n</SkillTag>
+                    </div>
                   </div>
                 </div>
               </div>

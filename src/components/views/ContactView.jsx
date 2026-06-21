@@ -98,7 +98,7 @@ export default function ContactView() {
             <div className="bg-[#1f2428] border border-gray-700/60 rounded-lg p-5">
               <h3 className="text-sm font-bold text-white mb-3">Areas of Interest</h3>
               <div className="flex flex-wrap gap-2">
-                {["Microservice Architecture", "Cloud-Native Systems", "AI/ML Pipelines", "High-Performance APIs", "Developer Tooling"].map((interest, i) => (
+                {["Backend API Development", "Microservice Architecture", "AI Integration & LLMs", "Database Design & PostgreSQL", "Containerized Deployments"].map((interest, i) => (
                   <span key={i} className="skill-tag px-3 py-1.5 bg-gray-700/30 text-gray-300 rounded-md text-xs border border-gray-600/30">
                     {interest}
                   </span>
