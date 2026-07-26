@@ -1,9 +1,9 @@
 import React from 'react';
 import { GitGraph, X } from 'lucide-react';
 
-export default function StatusBar() {
+export default function StatusBar({ sidebarMode }) {
   return (
-    <div className="h-6 bg-[#007acc] text-white flex items-center justify-between px-3 text-xs z-20 font-sans select-none shrink-0 rounded-b-lg">
+    <div className={`h-6 text-white flex items-center justify-between px-3 text-xs z-20 font-sans select-none shrink-0 rounded-b-lg transition-colors duration-300 ${sidebarMode === 'chat' ? 'bg-purple-700' : 'bg-[#007acc]'}`}>
       <div className="flex items-center gap-3">
         <div className="flex items-center gap-1 hover:bg-white/20 px-1 rounded cursor-pointer transition-colors">
           <GitGraph size={12} />

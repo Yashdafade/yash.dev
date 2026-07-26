@@ -3,20 +3,16 @@ import { ChevronDown, MoreHorizontal } from 'lucide-react';
 import { RESUME_DATA } from '../data/resumeData';
 
 export default function Sidebar({ isMobile, isSidebarOpen, setSidebarOpen, activeFile, onFileClick }) {
-  return (
-    <div className={`
-      ${isMobile ? 'absolute top-0 bottom-0 left-0 z-40 w-64 shadow-2xl transition-transform duration-300 ease-in-out' : 'relative w-64 transition-all duration-300'}
-      ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full md:w-0 md:-translate-x-0 md:hidden'}
-      bg-[#252526] flex flex-col border-r border-[#1e1e1e] shrink-0
-    `}>
-      <div className="h-9 px-4 flex items-center justify-between text-[11px] font-bold tracking-wider text-gray-500 uppercase">
+  const content = (
+    <>
+      <div className="h-9 px-4 flex items-center justify-between text-[11px] font-bold tracking-wider text-gray-500 uppercase shrink-0">
         <span>Explorer</span>
         <div className="flex gap-2 cursor-pointer hover:text-white transition-colors" onClick={() => setSidebarOpen(false)}>
           <MoreHorizontal size={14} />
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 overflow-y-auto min-w-0">
         <div className="px-1 py-1 flex items-center text-xs font-bold text-gray-300 cursor-pointer hover:bg-[#2a2d2e] transition-colors">
           <ChevronDown size={14} className="mr-1" />
           YASH_PORTFOLIO
@@ -34,6 +30,22 @@ export default function Sidebar({ isMobile, isSidebarOpen, setSidebarOpen, activ
             </div>
           ))}
         </div>
+      </div>
+    </>
+  );
+
+  if (isMobile) {
+    return (
+      <div className={`absolute top-0 bottom-0 left-0 z-40 w-64 shadow-2xl bg-[#252526] flex flex-col border-r border-[#1e1e1e] shrink-0 transition-transform duration-300 ease-in-out ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+        {content}
+      </div>
+    );
+  }
+
+  return (
+    <div className={`relative bg-[#252526] flex flex-col border-r border-[#1e1e1e] shrink-0 overflow-hidden transition-all duration-300 ease-in-out ${isSidebarOpen ? 'w-64' : 'w-0'}`}>
+      <div className={`min-w-64 flex-1 flex flex-col ${isSidebarOpen ? 'opacity-100' : 'opacity-0'} transition-opacity duration-200 delay-100`}>
+        {content}
       </div>
     </div>
   );

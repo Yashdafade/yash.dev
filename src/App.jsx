@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Bot, Sparkles } from 'lucide-react';
 import { RESUME_DATA, TERMINAL_LOGS_INITIAL, TERMINAL_RANDOM_LOGS } from './data/resumeData';
 
 // Components
@@ -19,12 +20,13 @@ import SkillsView from './components/views/SkillsView';
 import ProjectsView from './components/views/ProjectsView';
 import TimelineView from './components/views/TimelineView';
 import ContactView from './components/views/ContactView';
+import AIChatPanel from './components/AIChatPanel';
 
 export default function App() {
   const [activeFile, setActiveFile] = useState("README.md");
   const [openFiles, setOpenFiles] = useState(["README.md", "skills.json", "projects.py", "career_timeline.tsx", "connect.sh"]);
   const [isSidebarOpen, setSidebarOpen] = useState(true);
-  const [activeSidebarIndex, setActiveSidebarIndex] = useState(0);
+  const [sidebarMode, setSidebarMode] = useState('files');
   const [isPreviewMode, setIsPreviewMode] = useState(true);
   const [booting, setBooting] = useState(true);
   const [terminalLogs, setTerminalLogs] = useState(TERMINAL_LOGS_INITIAL);
@@ -86,8 +88,17 @@ export default function App() {
     setContentKey(k => k + 1);
   };
 
+  // Close sidebar when switching to chat
+  useEffect(() => {
+    if (sidebarMode === 'chat') {
+      setSidebarOpen(false);
+    }
+  }, [sidebarMode]);
+
   // Render the correct view for the active file
   const renderContent = () => {
+    if (sidebarMode === 'chat') return null;
+
     if (!activeFile) {
       return (
         <div className="flex flex-col items-center justify-center h-full text-gray-600 gap-4">
@@ -132,9 +143,9 @@ export default function App() {
         <div className="flex flex-1 h-full overflow-hidden relative">
 
           <ActivityBar
-            activeSidebarIndex={activeSidebarIndex}
+            sidebarMode={sidebarMode}
+            setSidebarMode={setSidebarMode}
             isSidebarOpen={isSidebarOpen}
-            setActiveSidebarIndex={setActiveSidebarIndex}
             setSidebarOpen={setSidebarOpen}
           />
 
@@ -149,30 +160,53 @@ export default function App() {
           {/* Editor Area */}
           <div className="flex-1 flex flex-col bg-[#1e1e1e]/80 min-w-0 relative">
 
-            <EditorTabs
-              openFiles={openFiles}
-              activeFile={activeFile}
-              onFileClick={handleFileClick}
-              onCloseFile={closeFile}
-            />
+            {sidebarMode !== 'chat' && (
+              <>
+                <EditorTabs
+                  openFiles={openFiles}
+                  activeFile={activeFile}
+                  onFileClick={handleFileClick}
+                  onCloseFile={closeFile}
+                />
 
-            <Breadcrumbs
-              activeFile={activeFile}
-              isPreviewMode={isPreviewMode}
-              onToggleMode={handleToggleMode}
-            />
+                <Breadcrumbs
+                  activeFile={activeFile}
+                  isPreviewMode={isPreviewMode}
+                  onToggleMode={handleToggleMode}
+                />
+              </>
+            )}
 
             {/* Content */}
-            <div className="flex-1 relative overflow-hidden bg-[#1e1e1e] backdrop-blur-sm" key={contentKey}>
-              {renderContent()}
+            <div className="flex-1 relative overflow-hidden bg-[#1e1e1e] backdrop-blur-sm">
+              {/* Chat panel — always mounted to preserve history */}
+              <div className={`absolute inset-0 z-10 ${sidebarMode === 'chat' ? 'block anim-fade-up' : 'hidden'}`}>
+                <AIChatPanel />
+              </div>
+
+              {/* File content — hidden during chat */}
+              <div className={`h-full ${sidebarMode === 'chat' ? 'hidden' : 'block'}`} key={contentKey}>
+                {renderContent()}
+
+                <button
+                  onClick={() => setSidebarMode('chat')}
+                  className="absolute bottom-6 right-6 flex items-center gap-2 px-4 py-2.5 bg-purple-500/20 border border-purple-500/30 rounded-lg text-sm text-purple-300 hover:bg-purple-500/30 hover:text-purple-200 transition-all shadow-lg z-20 anim-fade-in group"
+                >
+                  <Bot size={16} className="shrink-0" />
+                  <span className="hidden sm:inline">Ask me anything</span>
+                  <Sparkles size={12} className="text-purple-400/60 group-hover:text-purple-300/80 transition-colors" />
+                </button>
+              </div>
             </div>
 
-            <TerminalPanel terminalLogs={terminalLogs} isMobile={isMobile} />
+            <div className={`overflow-hidden transition-all duration-300 ease-in-out ${sidebarMode === 'chat' ? 'max-h-0 opacity-0' : 'max-h-48 opacity-100'}`}>
+              <TerminalPanel terminalLogs={terminalLogs} isMobile={isMobile} />
+            </div>
 
           </div>
         </div>
 
-        <StatusBar />
+        <StatusBar sidebarMode={sidebarMode} />
 
       </div>
     </div>
