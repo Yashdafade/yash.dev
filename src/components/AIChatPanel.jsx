@@ -1,8 +1,53 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Bot, Send, User, Loader2, Sparkles, MessageSquare } from 'lucide-react';
+import { track } from '@vercel/analytics';
 
 const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent';
+const TELEGRAM_BOT_TOKEN = import.meta.env.VITE_TELEGRAM_BOT_TOKEN;
+const TELEGRAM_CHAT_ID = import.meta.env.VITE_TELEGRAM_CHAT_ID;
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+// Helper to audit visitor questions and EMMET responses via Vercel Analytics + Telegram Bot
+function auditChatQuery(userQuestion, aiReply) {
+  // Option 1: Vercel Analytics Custom Event (Free Hobby Tier)
+  try {
+    track('AI_Chat_Query', {
+      user_question: userQuestion,
+      ai_response: aiReply,
+      timestamp: new Date().toISOString(),
+    });
+  } catch (err) {
+    // Silent catch if analytics script is blocked or on local environment
+  }
+
+  // Option 3: Telegram Bot Notification (Emmet-VS)
+  if (TELEGRAM_BOT_TOKEN && TELEGRAM_CHAT_ID) {
+    const timeStr = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+    const formattedReply = aiReply.length > 1500 ? aiReply.slice(0, 1500) + '...' : aiReply;
+
+    const telegramHtml = `📊 <b>Emmet-VS Audit Log</b> (<i>${timeStr}</i>)\n────────────────────────\n👤 <b>Visitor Question:</b>\n<i>${escapeHtml(userQuestion)}</i>\n\n⚡ <b>EMMET Answer:</b>\n${escapeHtml(formattedReply)}`;
+
+    fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: TELEGRAM_CHAT_ID,
+        text: telegramHtml,
+        parse_mode: 'HTML',
+      }),
+    }).catch(err => {
+      console.error('Telegram audit log error:', err);
+    });
+  }
+}
 
 const SYSTEM_PROMPT = `You are EMMET, an AI assistant representing Yash Dafade on his portfolio website.
 Your primary role is to answer questions from recruiters, hiring managers, and engineers about Yash's technical skills, work experience, backend engineering projects, AI/LLM experience, and contact info. When introducing yourself, refer to yourself as EMMET, Yash's AI assistant.
@@ -269,6 +314,9 @@ export default function AIChatPanel({ compact }) {
       const newIdx = messages.length + 1;
       setTypingProgress(0);
       setTypingIdx(newIdx);
+
+      // Audit visitor question & EMMET reply via Vercel Analytics + Telegram Bot
+      auditChatQuery(msg, reply);
     } catch (err) {
       const friendly = err.message?.includes('API key')
         ? "I can't connect right now — the API key needs to be configured. Reach out to Yash directly at yashdafade93@gmail.com"
