@@ -69,6 +69,7 @@ export default function App() {
     }
     setActiveFile(fileName);
     setIsPreviewMode(true);
+    setSidebarMode('files');
     setContentKey(k => k + 1);
     if (isMobile) setSidebarOpen(false);
   };
@@ -131,11 +132,11 @@ export default function App() {
   }
 
   return (
-    <div className="relative w-full h-[100dvh] bg-[#0d1117] text-gray-300 font-sans overflow-hidden flex items-center justify-center">
+    <div className="fixed inset-0 w-full h-full bg-[#0d1117] text-gray-300 font-sans overflow-hidden flex items-center justify-center">
       <ThreeBackground />
 
       {/* Main VS Code Window */}
-      <div className="window-glow relative w-[95vw] h-[92vh] md:w-[95vw] md:h-[85vh] max-w-[1600px] flex flex-col overflow-hidden bg-[#1e1e1e] rounded-lg border border-[#333] shadow-2xl z-10 anim-scale-in">
+      <div className="window-glow relative w-full h-full md:w-[95vw] md:h-[85vh] max-w-[1600px] flex flex-col overflow-hidden bg-[#1e1e1e] rounded-none md:rounded-lg border-0 md:border border-[#333] shadow-2xl z-10 anim-scale-in">
 
         <TitleBar isSidebarOpen={isSidebarOpen} setSidebarOpen={setSidebarOpen} />
 
@@ -181,7 +182,7 @@ export default function App() {
             <div className="flex-1 relative overflow-hidden bg-[#1e1e1e] backdrop-blur-sm">
               {/* Chat panel — always mounted to preserve history */}
               <div className={`absolute inset-0 z-10 ${sidebarMode === 'chat' ? 'block anim-fade-up' : 'hidden'}`}>
-                <AIChatPanel />
+                <AIChatPanel onCloseChat={() => setSidebarMode('files')} />
               </div>
 
               {/* File content — hidden during chat */}

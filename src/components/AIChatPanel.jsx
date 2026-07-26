@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Bot, Send, User, Loader2, Sparkles, MessageSquare } from 'lucide-react';
+import { Bot, Send, User, Loader2, Sparkles, MessageSquare, ArrowLeft } from 'lucide-react';
 import { track } from '@vercel/analytics';
 
 const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
@@ -16,12 +16,21 @@ function escapeHtml(str) {
 }
 
 // Helper to audit visitor questions and EMMET responses via Vercel Analytics + Telegram Bot
-function auditChatQuery(userQuestion, aiReply) {
+function auditChatQuery(userQuestion, aiReply, visitorName, visitorMeta) {
+  const nameTag = (visitorName || '').trim() || 'Anonymous Visitor';
+  const locationTag = visitorMeta?.location || 'Location Unavailable';
+  const sourceTag = visitorMeta?.referrer || 'Direct Link';
+  const deviceTag = visitorMeta?.device || 'Web Browser';
+
   // Option 1: Vercel Analytics Custom Event (Free Hobby Tier)
   try {
     track('AI_Chat_Query', {
+      visitor: nameTag,
       user_question: userQuestion,
       ai_response: aiReply,
+      location: locationTag,
+      source: sourceTag,
+      device: deviceTag,
       timestamp: new Date().toISOString(),
     });
   } catch (err) {
@@ -33,7 +42,7 @@ function auditChatQuery(userQuestion, aiReply) {
     const timeStr = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
     const formattedReply = aiReply.length > 1500 ? aiReply.slice(0, 1500) + '...' : aiReply;
 
-    const telegramHtml = `📊 <b>Emmet-VS Audit Log</b> (<i>${timeStr}</i>)\n────────────────────────\n👤 <b>Visitor Question:</b>\n<i>${escapeHtml(userQuestion)}</i>\n\n⚡ <b>EMMET Answer:</b>\n${escapeHtml(formattedReply)}`;
+    const telegramHtml = `📊 <b>Emmet-VS Audit Log</b> (<i>${timeStr}</i>)\n────────────────────────\n👤 <b>Visitor:</b> ${escapeHtml(nameTag)}\n📍 <b>Location:</b> ${escapeHtml(locationTag)}\n🔗 <b>Source:</b> ${escapeHtml(sourceTag)} (<i>${escapeHtml(deviceTag)}</i>)\n────────────────────────\n👤 <b>Visitor Question:</b>\n<i>${escapeHtml(userQuestion)}</i>\n\n⚡ <b>EMMET Answer:</b>\n${escapeHtml(formattedReply)}`;
 
     fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
       method: 'POST',
@@ -51,6 +60,10 @@ function auditChatQuery(userQuestion, aiReply) {
 
 const SYSTEM_PROMPT = `You are EMMET, an AI assistant representing Yash Dafade on his portfolio website.
 Your primary role is to answer questions from recruiters, hiring managers, and engineers about Yash's technical skills, work experience, backend engineering projects, AI/LLM experience, and contact info. When introducing yourself, refer to yourself as EMMET, Yash's AI assistant.
+
+VISITOR IDENTIFICATION & GREETING:
+- If the visitor introduces themselves or provides their name/company, acknowledge them warmly by name (e.g., "Nice to meet you Sarah!").
+- If no name is provided, you can warmly ask for their name or role in your first response if natural.
 
 SECURITY & BOUNDARIES:
 - Only answer questions related to Yash Dafade's professional background, technical skills, projects, experience, education, and contact channels.
@@ -212,13 +225,85 @@ function renderFormattedText(text) {
   });
 
   flushList('end');
-  return <div className="space-y-1 text-gray-200">{elements}</div>;
+  return <div className="space-y-2 text-gray-200 text-xs md:text-sm leading-relaxed text-justify sm:text-left break-words">{elements}</div>;
 }
 
-export default function AIChatPanel({ compact }) {
-  const [messages, setMessages] = useState([
-    { role: 'assistant', text: "Hi! I'm EMMET, Yash's AI assistant. Ask me anything about his skills, experience, or projects." }
-  ]);
+export default function AIChatPanel({ compact, onCloseChat }) {
+  const [visitorName, setVisitorName] = useState(() => {
+    if (typeof window === 'undefined') return '';
+    const stored = localStorage.getItem('emmet_visitor_name');
+    if (stored) return stored;
+    const params = new URLSearchParams(window.location.search);
+    const v = params.get('visitor') || params.get('name') || params.get('ref');
+    return v && v.length < 35 && !v.includes('http') ? v : '';
+  });
+
+  const [showModal, setShowModal] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    const storedName = localStorage.getItem('emmet_visitor_name');
+    const dismissed = localStorage.getItem('emmet_modal_dismissed');
+    return !storedName && !dismissed;
+  });
+
+  const [modalInput, setModalInput] = useState('');
+
+  const visitorMetaRef = useRef({
+    referrer: typeof document !== 'undefined' && document.referrer ? (new URL(document.referrer).hostname || 'Direct Link') : 'Direct Link',
+    device: typeof navigator !== 'undefined' ? (navigator.userAgent.includes('Mobile') ? 'Mobile Device' : 'Desktop Browser') : 'Web Browser',
+    location: 'Fetching location...',
+  });
+
+  useEffect(() => {
+    let isMounted = true;
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 2500);
+
+    fetch('https://ipapi.co/json/', { signal: controller.signal })
+      .then(res => res.json())
+      .then(data => {
+        if (isMounted && data?.city && data?.country_name) {
+          const orgStr = data.org ? ` (${data.org.replace(/^(AS\d+|ISP)\s*/i, '')})` : '';
+          visitorMetaRef.current.location = `${data.city}, ${data.country_name}${orgStr}`;
+        }
+      })
+      .catch(() => {
+        if (isMounted) visitorMetaRef.current.location = 'Location Unavailable';
+      })
+      .finally(() => clearTimeout(timer));
+
+    return () => {
+      isMounted = false;
+      clearTimeout(timer);
+    };
+  }, []);
+
+  const [messages, setMessages] = useState(() => {
+    const name = (visitorName || '').trim();
+    const text = name
+      ? `Hi ${name}! I'm EMMET, Yash's AI assistant. Ask me anything about his skills, experience, or projects.`
+      : "Hi! I'm EMMET, Yash's AI assistant. Ask me anything about his skills, experience, or projects.";
+    return [{ role: 'assistant', text }];
+  });
+
+  const handleSaveName = (nameToSave) => {
+    const finalName = (nameToSave !== undefined ? nameToSave : modalInput).trim();
+    if (finalName) {
+      setVisitorName(finalName);
+      localStorage.setItem('emmet_visitor_name', finalName);
+      if (messages.length === 1) {
+        setMessages([
+          { role: 'assistant', text: `Hi ${finalName}! I'm EMMET, Yash's AI assistant. Ask me anything about his skills, experience, or projects.` }
+        ]);
+      }
+    }
+    localStorage.setItem('emmet_modal_dismissed', 'true');
+    setShowModal(false);
+  };
+
+  const handleDismissModal = () => {
+    localStorage.setItem('emmet_modal_dismissed', 'true');
+    setShowModal(false);
+  };
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [typingIdx, setTypingIdx] = useState(-1);
@@ -316,7 +401,7 @@ export default function AIChatPanel({ compact }) {
       setTypingIdx(newIdx);
 
       // Audit visitor question & EMMET reply via Vercel Analytics + Telegram Bot
-      auditChatQuery(msg, reply);
+      auditChatQuery(msg, reply, visitorName, visitorMetaRef.current);
     } catch (err) {
       const friendly = err.message?.includes('API key')
         ? "I can't connect right now — the API key needs to be configured. Reach out to Yash directly at yashdafade93@gmail.com"
@@ -343,8 +428,63 @@ export default function AIChatPanel({ compact }) {
   const avatarSize = compact ? 'w-7 h-7' : 'w-9 h-9';
   const iconSize = compact ? 13 : 16;
 
+  const handleNameInputChange = (val) => {
+    setVisitorName(val);
+    if (val.trim()) {
+      localStorage.setItem('emmet_visitor_name', val.trim());
+    } else {
+      localStorage.removeItem('emmet_visitor_name');
+    }
+  };
+
   const content = (
     <>
+      {showModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-fadeIn">
+          <div className="w-full max-w-sm bg-[#1e1e1e] border border-[#333] rounded-xl p-5 shadow-2xl space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-full bg-purple-500/20 flex items-center justify-center shrink-0">
+                <Bot size={20} className="text-purple-400" />
+              </div>
+              <div>
+                <h3 className="text-sm font-bold text-white">Welcome to AI Chat!</h3>
+                <p className="text-[11px] text-gray-400">State your name or company before we begin!</p>
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
+                Your Name / Company (Optional)
+              </label>
+              <input
+                type="text"
+                value={modalInput}
+                onChange={e => setModalInput(e.target.value)}
+                onKeyDown={e => e.key === 'Enter' && handleSaveName()}
+                placeholder="e.g. Alex / Google Recruiter"
+                className="w-full bg-[#141414] border border-[#333] rounded-lg px-3 py-2 text-xs text-white placeholder-gray-600 outline-none focus:border-purple-500/60"
+                autoFocus
+              />
+            </div>
+
+            <div className="flex gap-2 pt-1">
+              <button
+                onClick={() => handleSaveName()}
+                className="flex-1 py-2 rounded-lg bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition-colors shadow-md shadow-purple-900/30"
+              >
+                Save & Continue
+              </button>
+              <button
+                onClick={handleDismissModal}
+                className="py-2 px-3 rounded-lg bg-[#2d2d2d] hover:bg-[#383838] text-gray-400 hover:text-white text-xs font-medium transition-colors"
+              >
+                Continue Anyway
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div ref={listRef} className={`flex-1 overflow-y-auto ${compact ? 'p-3 space-y-3' : 'p-6 space-y-4'}`}>
         {messages.map((msg, i) => (
           <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
@@ -352,7 +492,7 @@ export default function AIChatPanel({ compact }) {
               <div className={`${avatarSize} rounded-full flex items-center justify-center shrink-0 mt-0.5 ${msg.role === 'user' ? 'bg-blue-500/20' : 'bg-purple-500/20'}`}>
                 {msg.role === 'user' ? <User size={iconSize} className="text-blue-400" /> : <Bot size={iconSize} className="text-purple-400" />}
               </div>
-              <div className={`rounded-lg ${compact ? 'px-3 py-2' : 'px-4 py-3'} leading-relaxed ${textSize} ${msg.role === 'user' ? 'bg-blue-500/10 text-gray-200' : 'bg-[#1e1e1e] text-gray-300'}`}>
+              <div className={`rounded-xl ${compact ? 'px-3 py-2.5' : 'px-4 py-3.5'} ${msg.role === 'user' ? 'bg-blue-600/15 border border-blue-500/30 text-gray-100 shadow-sm' : 'bg-gradient-to-br from-[#2a2734] to-[#1e1c26] border border-purple-500/25 shadow-md text-gray-200'} ${compact ? 'max-w-[92%]' : 'max-w-[85%] md:max-w-[80%]'} leading-relaxed ${textSize}`}>
                 {i === typingIdx
                   ? renderFormattedText(msg.text.slice(0, typingProgress))
                   : renderFormattedText(msg.text)}
@@ -396,7 +536,7 @@ export default function AIChatPanel({ compact }) {
         )}
       </div>
 
-      <div className={`${compact ? 'p-3' : 'p-4'} border-t border-[#1e1e1e]`}>
+      <div className={`${compact ? 'p-3' : 'p-4'} border-t border-[#1e1e1e] shrink-0 bg-[#1e1e1e] z-20`}>
         {isApiKeyMissing && (
           <div className="mb-2 px-3 py-2 bg-yellow-500/10 border border-yellow-500/20 rounded text-[11px] text-yellow-400">
             Set <code className="bg-black/30 px-1 rounded">VITE_GEMINI_API_KEY</code> in <code className="bg-black/30 px-1 rounded">.env</code> to enable chat.
@@ -438,11 +578,21 @@ export default function AIChatPanel({ compact }) {
 
   return (
     <div className="flex flex-col h-full bg-[#1e1e1e]">
-      <div className="flex-none px-6 py-4 bg-[#1e1e1e] border-b border-[#2d2d2d]">
-        <h1 className="text-xl md:text-2xl font-bold text-white flex items-center gap-2">
-          <Bot className="text-purple-400" /> EMMET — AI Assistant
-        </h1>
-        <p className="text-xs text-gray-500 mt-1">Ask me anything about Yash's skills, experience, or projects</p>
+      <div className="flex-none px-4 md:px-6 py-3 md:py-4 bg-[#1e1e1e] border-b border-[#2d2d2d] flex items-center justify-between gap-2">
+        <div className="min-w-0">
+          <h1 className="text-lg md:text-2xl font-bold text-white flex items-center gap-2 truncate">
+            <Bot className="text-purple-400 shrink-0" size={20} /> EMMET — AI Assistant
+          </h1>
+          <p className="text-[11px] md:text-xs text-gray-500 mt-0.5 truncate">Ask me anything about Yash's skills, experience, or projects</p>
+        </div>
+        {onCloseChat && (
+          <button
+            onClick={onCloseChat}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-purple-500/10 hover:bg-purple-500/20 text-purple-300 hover:text-purple-200 border border-purple-500/30 text-xs font-semibold shrink-0 transition-colors shadow-sm"
+          >
+            <ArrowLeft size={14} /> Back to Code
+          </button>
+        )}
       </div>
       {content}
     </div>
