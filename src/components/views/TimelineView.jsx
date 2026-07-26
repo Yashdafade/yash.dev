@@ -61,35 +61,35 @@ export default function TimelineView() {
 
           <TimelineEntry
             period="Jan 2025 — Present"
-            title="Tata Consultancy Services"
+            title="Tata Consultancy Services (TCS)"
             role="Assistant System Engineer"
             location="Pune, India"
             color="blue"
             delay={0}
             highlights={[
-              "Ticket lifecycle management and SLA reporting via Ivanti ISM",
-              "Built Chrome DevTools automation scripts to detect new ticket arrivals and trigger priority-based audio alerts",
-              "Excel reporting automation using Office Scripts (TypeScript) for pivot-based SLA dashboards"
+              "Monitored and maintained a multi-server SQL Server and Oracle database environment across dev, staging, and production; executed and validated scripts from development teams as part of release workflows",
+              "Built Power BI dashboards with DAX-based calculated columns and measures to transform raw monitoring data into reporting-ready metrics",
+              "Automated ticketing workflows on ServiceNow and Ivanti, reducing manual triage steps for recurring issue categories"
             ]}
           />
 
           <TimelineEntry
             period="2024"
             title="Independent Projects"
-            role="Backend Developer"
+            role="Backend Engineer"
             location="Pune, India"
             color="green"
             delay={100}
             highlights={[
-              "Designed and deployed Schoolix, a full-stack school ERP, to learn production backend + DevOps",
-              "Built a face-recognition microservice (96% accuracy) and an NL2SQL chatbot over the same system"
+              "Designed and built a School Management Platform — enrollment, attendance, inventory, billing, library modules with role-based access",
+              "Built an AI attendance system using face embeddings and an NL2SQL chatbot with Gemini embedding + cosine similarity retrieval pipeline"
             ]}
-            technologies={["Node.js", "React", "Python", "Docker", "FastAPI", "PostgreSQL"]}
+            technologies={["Node.js", "Express.js", "React", "Python", "FastAPI", "PostgreSQL", "MongoDB", "Docker"]}
           />
 
           <TimelineEntry
             period="2020 — 2024"
-            title="Govt. College of Engineering, Chandrapur"
+            title="Government College of Engineering, Amravati"
             role="B.Tech, Instrumentation Engineering"
             location="Maharashtra, India"
             color="yellow"

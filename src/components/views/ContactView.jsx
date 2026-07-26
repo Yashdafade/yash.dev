@@ -1,5 +1,5 @@
 import React from 'react';
-import { Send, Mail, Github, Linkedin, ExternalLink, MapPin } from 'lucide-react';
+import { Send, Mail, Github, Linkedin, ExternalLink, MapPin, Server, Brain, Database, GitBranch, Container } from 'lucide-react';
 import AnimatedCard from '../AnimatedCard';
 
 const ContactLink = ({ href, icon: Icon, label, sublabel, color, delay = 0 }) => {
@@ -37,7 +37,7 @@ export default function ContactView() {
         <h1 className="text-xl md:text-2xl font-bold text-white flex items-center gap-2">
           <Send className="text-green-400" /> Get In Touch
         </h1>
-        <p className="text-xs text-gray-500 mt-1">Open to backend & AI engineering roles</p>
+        <p className="text-xs text-gray-500 mt-1">Open to backend & AI/LLM engineering roles</p>
       </div>
 
       <div className="flex-1 overflow-y-auto p-6">
@@ -52,7 +52,7 @@ export default function ContactView() {
               </div>
               <div>
                 <p className="text-green-400 font-semibold text-sm">Actively Interviewing</p>
-                <p className="text-xs text-gray-400 mt-0.5">Backend Developer • Microservices • AI Integration</p>
+                <p className="text-xs text-gray-400 mt-0.5">Backend Engineer • AI/LLM Integration • Node.js • Python</p>
               </div>
             </div>
           </AnimatedCard>
@@ -66,7 +66,7 @@ export default function ContactView() {
           </AnimatedCard>
 
           {/* Links Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             <ContactLink
               href="mailto:yashdafade93@gmail.com"
               icon={Mail}
@@ -95,13 +95,27 @@ export default function ContactView() {
 
           {/* Interests */}
           <AnimatedCard delay={400}>
-            <div className="bg-[#1f2428] border border-gray-700/60 rounded-lg p-5">
-              <h3 className="text-sm font-bold text-white mb-3">Areas of Interest</h3>
-              <div className="flex flex-wrap gap-2">
-                {["Backend API Development", "Microservice Architecture", "AI Integration & LLMs", "Database Design & PostgreSQL", "Containerized Deployments"].map((interest, i) => (
-                  <span key={i} className="skill-tag px-3 py-1.5 bg-gray-700/30 text-gray-300 rounded-md text-xs border border-gray-600/30">
-                    {interest}
-                  </span>
+            <div className="bg-[#1f2428] border border-gray-700/60 rounded-lg overflow-hidden">
+              <div className="px-5 pt-4 pb-3 border-b border-gray-700/40">
+                <h3 className="text-sm font-bold text-white">Areas of Interest</h3>
+              </div>
+              <div className="p-4">
+                {[
+                  { label: "Backend API Development & Microservices", icon: Server, desc: "REST, GraphQL, event-driven architectures" },
+                  { label: "AI Integration & LLMs", icon: Brain, desc: "RAG, embeddings, prompt engineering" },
+                  { label: "Database Design & Optimization", icon: Database, desc: "PostgreSQL, MongoDB, schema design, indexing" },
+                  { label: "Distributed Systems & System Design", icon: GitBranch, desc: "Scalability, consistency, fault tolerance" },
+                  { label: "Containerized Deployments & DevOps", icon: Container, desc: "Docker, CI/CD, Linux, cloud infra" },
+                ].map((item, i) => (
+                  <div key={i} className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-700/20 transition-colors">
+                    <div className="w-8 h-8 rounded-lg bg-gray-700/30 flex items-center justify-center shrink-0">
+                      <item.icon size={15} className="text-gray-400" />
+                    </div>
+                    <div className="min-w-0">
+                      <div className="text-sm text-gray-300">{item.label}</div>
+                      <div className="text-[11px] text-gray-600">{item.desc}</div>
+                    </div>
+                  </div>
                 ))}
               </div>
             </div>
