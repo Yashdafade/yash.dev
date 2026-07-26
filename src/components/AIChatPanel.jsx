@@ -40,7 +40,14 @@ function auditChatQuery(userQuestion, aiReply, visitorName, visitorMeta) {
   // Option 3: Telegram Bot Notification (Emmet-VS)
   if (TELEGRAM_BOT_TOKEN && TELEGRAM_CHAT_ID) {
     const timeStr = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
-    const formattedReply = aiReply.length > 1500 ? aiReply.slice(0, 1500) + '...' : aiReply;
+    
+    // Telegram allows up to 4096 characters per message. Use 3500 max limit with clean sentence boundary.
+    let formattedReply = aiReply;
+    if (formattedReply.length > 3500) {
+      const cutIdx = formattedReply.lastIndexOf('\n\n', 3500);
+      const cleanCut = cutIdx > 2500 ? cutIdx : 3500;
+      formattedReply = formattedReply.slice(0, cleanCut).trim() + '\n\n<i>[Truncated for Telegram limit]</i>';
+    }
 
     const telegramHtml = `📊 <b>Emmet-VS Audit Log</b> (<i>${timeStr}</i>)\n────────────────────────\n👤 <b>Visitor:</b> ${escapeHtml(nameTag)}\n📍 <b>Location:</b> ${escapeHtml(locationTag)}\n🔗 <b>Source:</b> ${escapeHtml(sourceTag)} (<i>${escapeHtml(deviceTag)}</i>)\n────────────────────────\n👤 <b>Visitor Question:</b>\n<i>${escapeHtml(userQuestion)}</i>\n\n⚡ <b>EMMET Answer:</b>\n${escapeHtml(formattedReply)}`;
 
