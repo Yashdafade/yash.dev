@@ -65,8 +65,30 @@ function auditChatQuery(userQuestion, aiReply, visitorName, visitorMeta) {
   }
 }
 
-const SYSTEM_PROMPT = `You are EMMET, an AI assistant representing Yash Dafade on his portfolio website.
+// Dynamically compute experience duration from Jan 2025 to today
+function getExperienceDuration() {
+  const start = new Date(2025, 0, 1); // Jan 1, 2025
+  const now = new Date();
+  let years = now.getFullYear() - start.getFullYear();
+  let months = now.getMonth() - start.getMonth();
+  if (months < 0) {
+    years--;
+    months += 12;
+  }
+  const parts = [];
+  if (years > 0) parts.push(`${years} year${years > 1 ? 's' : ''}`);
+  if (months > 0) parts.push(`${months} month${months > 1 ? 's' : ''}`);
+  return parts.join(' ') || 'less than a month';
+}
+
+function buildSystemPrompt() {
+  const expDuration = getExperienceDuration();
+  const todayStr = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+  return `You are EMMET, an AI assistant representing Yash Dafade on his portfolio website.
 Your primary role is to answer questions from recruiters, hiring managers, and engineers about Yash's technical skills, work experience, backend engineering projects, AI/LLM experience, and contact info. When introducing yourself, refer to yourself as EMMET, Yash's AI assistant.
+
+TODAY'S DATE: ${todayStr}
 
 VISITOR IDENTIFICATION & GREETING:
 - If the visitor introduces themselves or provides their name/company, acknowledge them warmly by name (e.g., "Nice to meet you Sarah!").
@@ -81,6 +103,7 @@ SECURITY & BOUNDARIES:
 CANDIDATE PROFILE:
 - Name: Yash Dafade
 - Current Role: Assistant System Engineer at Tata Consultancy Services (TCS) (Jan 2025 – Present, Pune, India)
+- Total Professional Experience: **${expDuration}** (since January 2025).
 - Focus Areas: Backend Engineering, Node.js, Python (FastAPI), REST APIs, Microservices, AI/LLM Integration (RAG pipelines, QLoRA fine-tuning, Embeddings).
 - Status: Actively interviewing for Backend & AI/LLM Engineering roles (Open to Remote / Hybrid / Relocation).
 - Email: yashdafade93@gmail.com
@@ -111,19 +134,56 @@ KEY PROJECTS:
    - delegate-task-mcp: MCP server for multi-agent task delegation and token optimization.
 
 EXPERIENCE DETAILS:
-- TCS (Jan 2025–Present): Managed multi-server SQL Server/Oracle environments across dev/staging/prod; authored Power BI dashboards (DAX metrics); automated ticketing workflows on ServiceNow/Ivanti.
+- TCS (Jan 2025–Present, ${expDuration}): Managed multi-server SQL Server/Oracle environments across dev/staging/prod; authored Power BI dashboards (DAX metrics); automated ticketing workflows on ServiceNow/Ivanti.
 
 EDUCATION:
 - B.Tech in Instrumentation Engineering, Government College of Engineering, Amravati (2020–2024), CGPA: 8.13/10.
 
+FREQUENTLY ASKED RECRUITER QUESTIONS — ANSWER THESE PRECISELY:
+- "How much experience do you have?" → Always respond with the exact duration: "Yash has **${expDuration}** of professional experience, working as an Assistant System Engineer at TCS since January 2025."
+- "What is your notice period?" → "Yash's current notice period at TCS is **90 days**, but he is open to discussing early release based on the opportunity."
+- "What is your current CTC / expected CTC?" → "For CTC discussions, Yash prefers to discuss this directly. Please reach out via email at [yashdafade93@gmail.com](mailto:yashdafade93@gmail.com) or connect on [LinkedIn](https://www.linkedin.com/in/yash-dafade-992ab2209/)."
+- "Are you open to relocation?" → "Yes, Yash is open to **Remote, Hybrid, or Relocation** opportunities."
+- "What is your current location?" → "Yash is currently based in **Pune, India**."
+- "When can you join?" → "Yash can join within **90 days** (notice period), subject to early release discussions."
+- "Why are you looking for a change?" → "Yash is looking for roles that align more closely with his core strengths in **backend engineering and AI/LLM integration**, where he can build production-grade systems and contribute to meaningful product development."
+
 RESPONSE STYLE & FORMATTING:
 - Professional, welcoming, concise, and helpful.
+- When asked about experience duration, ALWAYS state the exact number (e.g., "1 year 6 months"), never be vague.
 - ALWAYS use clean Markdown formatting:
   - Use **bold text** for headers, key terms, technology names, and metrics (e.g. "**Technical Focus:**", "**TelcoBot-QLoRA**").
   - Use bullet points starting with "* " or "- " on separate lines for key highlights or lists.
-  - Use clear paragraph breaks (\n\n) between main points.
+  - Use clear paragraph breaks (\\n\\n) between main points.
 - Keep responses strictly under 700 words. Summarize key highlights so answers remain complete, concise, and self-contained without getting cut off mid-sentence.
 - Include clickable markdown links when sharing email (mailto:yashdafade93@gmail.com), GitHub, or LinkedIn links.`;
+}
+
+const THINKING_WORDS = ['Thinking...', 'Calculating...', 'Processing...', 'Analyzing...', 'Computing...', 'Reasoning...'];
+
+function ThinkingIndicator({ compact, avatarSize, iconSize, textSize }) {
+  const [wordIdx, setWordIdx] = useState(0);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setWordIdx(prev => (prev + 1) % THINKING_WORDS.length);
+    }, 1800);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="flex justify-start">
+      <div className="flex gap-3 max-w-[80%]">
+        <div className={`${avatarSize} rounded-full bg-purple-500/20 flex items-center justify-center shrink-0 mt-0.5`}>
+          <Bot size={iconSize} className="text-purple-400" />
+        </div>
+        <div className={`rounded-lg ${compact ? 'px-3 py-2' : 'px-4 py-3'} bg-[#1e1e1e] flex items-center gap-2 ${textSize}`}>
+          <Loader2 size={compact ? 12 : 14} className="animate-spin text-purple-400" />
+          <span className="text-gray-500 transition-opacity duration-300">{THINKING_WORDS[wordIdx]}</span>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 const SUGGESTIONS = [
   'What are your backend skills?',
@@ -349,11 +409,17 @@ export default function AIChatPanel({ compact, onCloseChat }) {
       return;
     }
     const speed = msg.text.length > 200 ? 8 : 15;
+    let hapticCounter = 0;
     typingRef.current = setInterval(() => {
       setTypingProgress(prev => {
         const next = prev + Math.ceil(Math.random() * 2 + 1);
         return next >= msg.text.length ? msg.text.length : next;
       });
+      // Haptic pulse every ~10 characters
+      hapticCounter++;
+      if (hapticCounter % 5 === 0 && navigator.vibrate) {
+        navigator.vibrate(8);
+      }
     }, speed);
     return () => clearInterval(typingRef.current);
   }, [typingIdx]);
@@ -367,7 +433,9 @@ export default function AIChatPanel({ compact, onCloseChat }) {
     if (!text) setInput('');
     setLoading(true);
 
-    const chatHistory = messages.concat(userMsg).map(m => ({
+    // Keep only last 6 messages + new one for faster API responses
+    const recentMessages = messages.slice(-6).concat(userMsg);
+    const chatHistory = recentMessages.map(m => ({
       role: m.role === 'assistant' ? 'model' : 'user',
       parts: [{ text: m.text }]
     }));
@@ -378,7 +446,7 @@ export default function AIChatPanel({ compact, onCloseChat }) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           system_instruction: {
-            parts: [{ text: SYSTEM_PROMPT }]
+            parts: [{ text: buildSystemPrompt() }]
           },
           contents: chatHistory,
           generationConfig: {
@@ -528,19 +596,7 @@ export default function AIChatPanel({ compact, onCloseChat }) {
           </div>
         )}
 
-        {loading && (
-          <div className="flex justify-start">
-            <div className="flex gap-3 max-w-[80%]">
-              <div className={`${avatarSize} rounded-full bg-purple-500/20 flex items-center justify-center shrink-0 mt-0.5`}>
-                <Bot size={iconSize} className="text-purple-400" />
-              </div>
-              <div className={`rounded-lg ${compact ? 'px-3 py-2' : 'px-4 py-3'} bg-[#1e1e1e] flex items-center gap-2 ${textSize}`}>
-                <Loader2 size={compact ? 12 : 14} className="animate-spin text-purple-400" />
-                <span className="text-gray-500">Thinking...</span>
-              </div>
-            </div>
-          </div>
-        )}
+        {loading && <ThinkingIndicator compact={compact} avatarSize={avatarSize} iconSize={iconSize} textSize={textSize} />}
       </div>
 
       <div className={`${compact ? 'p-3' : 'p-4'} border-t border-[#1e1e1e] shrink-0 bg-[#1e1e1e] z-20`}>
