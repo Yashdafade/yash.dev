@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Bot, Send, User, Loader2, Sparkles, MessageSquare, ArrowLeft } from 'lucide-react';
+import { Bot, Send, User, Loader2, Sparkles, MessageSquare, ArrowLeft, Mic } from 'lucide-react';
 import { track } from '@vercel/analytics';
+import VoiceChatOverlay from './VoiceChatOverlay';
 
 const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent';
@@ -16,7 +17,7 @@ function escapeHtml(str) {
 }
 
 // Helper to audit visitor questions and EMMET responses via Vercel Analytics + Telegram Bot
-function auditChatQuery(userQuestion, aiReply, visitorName, visitorMeta) {
+function auditChatQuery(userQuestion, aiReply, visitorName, visitorMeta, sourceMode = 'Text') {
   const nameTag = (visitorName || '').trim() || 'Anonymous Visitor';
   const locationTag = visitorMeta?.location || 'Location Unavailable';
   const sourceTag = visitorMeta?.referrer || 'Direct Link';
@@ -49,7 +50,7 @@ function auditChatQuery(userQuestion, aiReply, visitorName, visitorMeta) {
       formattedReply = formattedReply.slice(0, cleanCut).trim() + '\n\n<i>[Truncated for Telegram limit]</i>';
     }
 
-    const telegramHtml = `📊 <b>Emmet-VS Audit Log</b> (<i>${timeStr}</i>)\n────────────────────────\n👤 <b>Visitor:</b> ${escapeHtml(nameTag)}\n📍 <b>Location:</b> ${escapeHtml(locationTag)}\n🔗 <b>Source:</b> ${escapeHtml(sourceTag)} (<i>${escapeHtml(deviceTag)}</i>)\n────────────────────────\n👤 <b>Visitor Question:</b>\n<i>${escapeHtml(userQuestion)}</i>\n\n⚡ <b>EMMET Answer:</b>\n${escapeHtml(formattedReply)}`;
+    const telegramHtml = `📊 <b>Emmet-VS Audit Log</b> (<i>${timeStr}</i>)\n────────────────────────\n👤 <b>Visitor:</b> ${escapeHtml(nameTag)}\n📍 <b>Location:</b> ${escapeHtml(locationTag)}\n🔗 <b>Source:</b> ${escapeHtml(sourceTag)} (<i>${escapeHtml(deviceTag)}</i>)\n🎙️ <b>Mode:</b> Sent from ${sourceMode}\n────────────────────────\n👤 <b>Visitor Question:</b>\n<i>${escapeHtml(userQuestion)}</i>\n\n⚡ <b>EMMET Answer:</b>\n${escapeHtml(formattedReply)}`;
 
     fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
       method: 'POST',
@@ -192,7 +193,7 @@ const SUGGESTIONS = [
   'Where do you work currently?',
 ];
 
-function parseInlineMarkdown(text) {
+export function parseInlineMarkdown(text) {
   if (!text) return text;
 
   const parts = [];
@@ -250,7 +251,7 @@ function parseInlineMarkdown(text) {
   return parts.length > 0 ? parts : text;
 }
 
-function renderFormattedText(text) {
+export function renderFormattedText(text) {
   if (!text) return null;
 
   const lines = text.split('\n');
@@ -375,6 +376,7 @@ export default function AIChatPanel({ compact, onCloseChat }) {
   const [loading, setLoading] = useState(false);
   const [typingIdx, setTypingIdx] = useState(-1);
   const [typingProgress, setTypingProgress] = useState(0);
+  const [voiceMode, setVoiceMode] = useState(false);
   const typingRef = useRef(null);
   const listRef = useRef(null);
   const inputRef = useRef(null);
@@ -403,17 +405,22 @@ export default function AIChatPanel({ compact, onCloseChat }) {
     if (typingIdx === -1) return;
     const msg = messages[typingIdx];
     if (!msg || msg.role !== 'assistant') return;
-    if (typingProgress >= msg.text.length) {
-      setTypingIdx(-1);
-      setTypingProgress(0);
-      return;
-    }
+
     const speed = msg.text.length > 200 ? 8 : 15;
     let hapticCounter = 0;
     typingRef.current = setInterval(() => {
       setTypingProgress(prev => {
         const next = prev + Math.ceil(Math.random() * 2 + 1);
-        return next >= msg.text.length ? msg.text.length : next;
+        if (next >= msg.text.length) {
+          clearInterval(typingRef.current);
+          // Small delay before removing the typing indicator state
+          setTimeout(() => {
+            setTypingIdx(-1);
+            setTypingProgress(0);
+          }, 50);
+          return msg.text.length;
+        }
+        return next;
       });
       // Haptic pulse every ~10 characters
       hapticCounter++;
@@ -476,7 +483,7 @@ export default function AIChatPanel({ compact, onCloseChat }) {
       setTypingIdx(newIdx);
 
       // Audit visitor question & EMMET reply via Vercel Analytics + Telegram Bot
-      auditChatQuery(msg, reply, visitorName, visitorMetaRef.current);
+      auditChatQuery(msg, reply, visitorName, visitorMetaRef.current, 'Text');
     } catch (err) {
       const friendly = err.message?.includes('API key')
         ? "I can't connect right now — the API key needs to be configured. Reach out to Yash directly at yashdafade93@gmail.com"
@@ -605,6 +612,17 @@ export default function AIChatPanel({ compact, onCloseChat }) {
             Set <code className="bg-black/30 px-1 rounded">VITE_GEMINI_API_KEY</code> in <code className="bg-black/30 px-1 rounded">.env</code> to enable chat.
           </div>
         )}
+        <div className="flex justify-center mb-3">
+          <button
+            onClick={() => setVoiceMode(true)}
+            disabled={isApiKeyMissing}
+            title="Voice Chat with EMMET"
+            className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 text-xs font-semibold transition-colors disabled:opacity-30"
+          >
+            <Mic size={14} />
+            Switch to Voice
+          </button>
+        </div>
         <div className="flex gap-2">
           <input
             ref={inputRef}
@@ -625,6 +643,13 @@ export default function AIChatPanel({ compact, onCloseChat }) {
           </button>
         </div>
       </div>
+
+      <VoiceChatOverlay
+        isOpen={voiceMode}
+        onClose={() => setVoiceMode(false)}
+        systemPrompt={buildSystemPrompt()}
+        onAudit={(q, a) => auditChatQuery(q, a, visitorName, visitorMetaRef.current, 'Voice')}
+      />
     </>
   );
 
