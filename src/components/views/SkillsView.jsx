@@ -1,5 +1,5 @@
 import React from 'react';
-import { Braces, Server, Monitor, Brain, Database, Cloud, Shield, Code, BookOpen } from 'lucide-react';
+import { Braces, Server, Monitor, Brain, Database, Cloud, Shield, Code, BookOpen, HardDrive } from 'lucide-react';
 import AnimatedCard from '../AnimatedCard';
 
 const SkillTag = ({ children, color = 'gray' }) => {
@@ -35,6 +35,48 @@ export default function SkillsView() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 pb-10">
 
           <AnimatedCard delay={0}>
+            <div className="card-hover bg-[#1f2428] border border-gray-700/60 rounded-lg p-5 hover:border-green-500/50 h-full flex flex-col justify-between">
+              <div>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-9 h-9 rounded-lg bg-green-500/10 flex items-center justify-center">
+                    <Database size={20} className="text-green-400" />
+                  </div>
+                  <h2 className="text-base font-bold text-white">Databases</h2>
+                </div>
+                <div className="flex flex-wrap gap-1.5">
+                  <SkillTag color="red">Oracle</SkillTag>
+                  <SkillTag color="red">MS SQL Server</SkillTag>
+                  <SkillTag color="green">PostgreSQL</SkillTag>
+                  <SkillTag color="blue">MySQL</SkillTag>
+                  <SkillTag color="green">MongoDB</SkillTag>
+                  <SkillTag color="cyan">Supabase</SkillTag>
+                </div>
+              </div>
+            </div>
+          </AnimatedCard>
+
+          <AnimatedCard delay={80}>
+            <div className="card-hover bg-[#1f2428] border border-gray-700/60 rounded-lg p-5 hover:border-red-500/50 h-full flex flex-col justify-between">
+              <div>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-9 h-9 rounded-lg bg-red-500/10 flex items-center justify-center">
+                    <HardDrive size={20} className="text-red-400" />
+                  </div>
+                  <h2 className="text-base font-bold text-white">DBA Operations</h2>
+                </div>
+                <div className="flex flex-wrap gap-1.5">
+                  <SkillTag color="red">Oracle on Linux</SkillTag>
+                  <SkillTag color="red">MS SQL Server on Windows</SkillTag>
+                  <SkillTag color="orange">Backup & Recovery</SkillTag>
+                  <SkillTag color="orange">Performance Tuning</SkillTag>
+                  <SkillTag color="yellow">Query Optimization</SkillTag>
+                  <SkillTag color="green">Schema Design</SkillTag>
+                </div>
+              </div>
+            </div>
+          </AnimatedCard>
+
+          <AnimatedCard delay={160}>
             <div className="card-hover bg-[#1f2428] border border-gray-700/60 rounded-lg p-5 hover:border-blue-500/50 h-full flex flex-col justify-between">
               <div>
                 <div className="flex items-center gap-3 mb-4">
@@ -54,7 +96,7 @@ export default function SkillsView() {
             </div>
           </AnimatedCard>
 
-          <AnimatedCard delay={80}>
+          <AnimatedCard delay={240}>
             <div className="card-hover bg-[#1f2428] border border-gray-700/60 rounded-lg p-5 hover:border-purple-500/50 h-full flex flex-col justify-between">
               <div>
                 <div className="flex items-center gap-3 mb-4">
@@ -74,27 +116,28 @@ export default function SkillsView() {
             </div>
           </AnimatedCard>
 
-          <AnimatedCard delay={160}>
-            <div className="card-hover bg-[#1f2428] border border-gray-700/60 rounded-lg p-5 hover:border-green-500/50 h-full flex flex-col justify-between">
+          <AnimatedCard delay={320}>
+            <div className="card-hover bg-[#1f2428] border border-gray-700/60 rounded-lg p-5 hover:border-cyan-500/50 h-full flex flex-col justify-between">
               <div>
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-9 h-9 rounded-lg bg-green-500/10 flex items-center justify-center">
-                    <Database size={20} className="text-green-400" />
+                  <div className="w-9 h-9 rounded-lg bg-cyan-500/10 flex items-center justify-center">
+                    <Code size={20} className="text-cyan-400" />
                   </div>
-                  <h2 className="text-base font-bold text-white">Databases</h2>
+                  <h2 className="text-base font-bold text-white">Languages</h2>
                 </div>
                 <div className="flex flex-wrap gap-1.5">
-                  <SkillTag color="green">PostgreSQL</SkillTag>
-                  <SkillTag color="green">MongoDB</SkillTag>
-                  <SkillTag color="blue">MySQL</SkillTag>
-                  <SkillTag color="red">MS SQL Server</SkillTag>
-                  <SkillTag color="red">Oracle</SkillTag>
+                  <SkillTag color="red">SQL</SkillTag>
+                  <SkillTag color="red">PL/SQL</SkillTag>
+                  <SkillTag color="red">T-SQL</SkillTag>
+                  <SkillTag color="yellow">JavaScript (ES6+)</SkillTag>
+                  <SkillTag color="blue">TypeScript</SkillTag>
+                  <SkillTag color="yellow">Python</SkillTag>
                 </div>
               </div>
             </div>
           </AnimatedCard>
 
-          <AnimatedCard delay={240}>
+          <AnimatedCard delay={400}>
             <div className="card-hover bg-[#1f2428] border border-gray-700/60 rounded-lg p-5 hover:border-red-500/50 h-full flex flex-col justify-between">
               <div>
                 <div className="flex items-center gap-3 mb-4">
@@ -113,7 +156,7 @@ export default function SkillsView() {
             </div>
           </AnimatedCard>
 
-          <AnimatedCard delay={320}>
+          <AnimatedCard delay={480}>
             <div className="card-hover bg-[#1f2428] border border-gray-700/60 rounded-lg p-5 hover:border-orange-500/50 h-full flex flex-col justify-between">
               <div>
                 <div className="flex items-center gap-3 mb-4">
@@ -127,33 +170,13 @@ export default function SkillsView() {
                   <SkillTag color="gray">GitHub Actions (CI/CD)</SkillTag>
                   <SkillTag color="green">Linux</SkillTag>
                   <SkillTag color="green">Nginx</SkillTag>
-                  <SkillTag color="orange">Hostinger VPS</SkillTag>
-                  <SkillTag color="blue">Render</SkillTag>
                   <SkillTag color="orange">AWS Fundamentals</SkillTag>
                 </div>
               </div>
             </div>
           </AnimatedCard>
 
-          <AnimatedCard delay={400}>
-            <div className="card-hover bg-[#1f2428] border border-gray-700/60 rounded-lg p-5 hover:border-yellow-500/50 h-full flex flex-col justify-between">
-              <div>
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-9 h-9 rounded-lg bg-yellow-500/10 flex items-center justify-center">
-                    <Code size={20} className="text-yellow-400" />
-                  </div>
-                  <h2 className="text-base font-bold text-white">Languages</h2>
-                </div>
-                <div className="flex flex-wrap gap-1.5">
-                  <SkillTag color="yellow">JavaScript (ES6+)</SkillTag>
-                  <SkillTag color="blue">TypeScript</SkillTag>
-                  <SkillTag color="yellow">Python</SkillTag>
-                </div>
-              </div>
-            </div>
-          </AnimatedCard>
-
-          <AnimatedCard delay={480}>
+          <AnimatedCard delay={560}>
             <div className="card-hover bg-[#1f2428] border border-gray-700/60 rounded-lg p-5 hover:border-cyan-500/50 h-full flex flex-col justify-between">
               <div>
                 <div className="flex items-center gap-3 mb-4">
@@ -170,7 +193,7 @@ export default function SkillsView() {
             </div>
           </AnimatedCard>
 
-          <AnimatedCard delay={560}>
+          <AnimatedCard delay={640}>
             <div className="card-hover bg-[#1f2428] border border-gray-700/60 rounded-lg p-5 hover:border-pink-500/50 h-full flex flex-col justify-between">
               <div>
                 <div className="flex items-center gap-3 mb-4">

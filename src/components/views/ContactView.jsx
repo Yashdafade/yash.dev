@@ -37,7 +37,7 @@ export default function ContactView() {
         <h1 className="text-xl md:text-2xl font-bold text-white flex items-center gap-2">
           <Send className="text-green-400" /> Get In Touch
         </h1>
-        <p className="text-xs text-gray-500 mt-1">Open to backend & AI/LLM engineering roles</p>
+        <p className="text-xs text-gray-500 mt-1">Open to Data Engineering, DBA & Backend roles</p>
       </div>
 
       <div className="flex-1 overflow-y-auto p-6">
@@ -52,7 +52,7 @@ export default function ContactView() {
               </div>
               <div>
                 <p className="text-green-400 font-semibold text-sm">Actively Interviewing</p>
-                <p className="text-xs text-gray-400 mt-0.5">Backend Engineer • AI/LLM Integration • Node.js • Python</p>
+                <p className="text-xs text-gray-400 mt-0.5">Data Engineer • DBA • Backend Developer</p>
               </div>
             </div>
           </AnimatedCard>
@@ -101,10 +101,10 @@ export default function ContactView() {
               </div>
               <div className="p-4">
                 {[
-                  { label: "Backend API Development & Microservices", icon: Server, desc: "REST, GraphQL, event-driven architectures" },
+                  { label: "Database Administration (Oracle, MS SQL Server)", icon: Database, desc: "Backup & recovery, performance tuning, query optimization" },
+                  { label: "Data Engineering & ETL Pipelines", icon: GitBranch, desc: "Data modeling, SQL scripting, reporting automation" },
+                  { label: "Backend API Development & Microservices", icon: Server, desc: "REST APIs, Node.js, FastAPI, system design" },
                   { label: "AI Integration & LLMs", icon: Brain, desc: "RAG, embeddings, prompt engineering" },
-                  { label: "Database Design & Optimization", icon: Database, desc: "PostgreSQL, MongoDB, schema design, indexing" },
-                  { label: "Distributed Systems & System Design", icon: GitBranch, desc: "Scalability, consistency, fault tolerance" },
                   { label: "Containerized Deployments & DevOps", icon: Container, desc: "Docker, CI/CD, Linux, cloud infra" },
                 ].map((item, i) => (
                   <div key={i} className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-700/20 transition-colors">

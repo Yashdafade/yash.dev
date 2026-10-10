@@ -9,14 +9,14 @@ const CONNECT_SH_CONTENT = [
   '',
   '# ============================================',
   '#   YASH DAFADE',
-  '#   Backend Engineer · Node.js · Python · AI/LLM',
+  '#   Data Engineer · DBA · Backend Developer',
   '# ============================================',
   '',
   'show_banner() {',
   '  echo "  ╔══════════════════════════════════════╗"',
   '  echo "  ║    YASH DAFADE                       ║"',
-  '  echo "  ║    Backend Engineer                   ║"',
-  '  echo "  ║    Node.js · Python · AI/LLM         ║"',
+  '  echo "  ║    Data Engineer · DBA · Backend     ║"',
+  '  echo "  ║    Oracle · SQL Server · Node.js     ║"',
   '  echo "  ╚══════════════════════════════════════╝"',
   '  echo ""',
   '}',
@@ -42,10 +42,10 @@ const CONNECT_SH_CONTENT = [
   '',
   'show_interests() {',
   '  local -a INTERESTS=(',
+  '    "Database Administration (Oracle, MS SQL Server)"',
+  '    "Data Engineering & ETL Pipelines"',
   '    "Backend API Development & Microservices"',
   '    "AI Integration & LLMs"',
-  '    "Database Design & Optimization"',
-  '    "Distributed Systems & System Design"',
   '    "Containerized Deployments & DevOps"',
   '  )',
   '',
@@ -73,13 +73,13 @@ export const RESUME_DATA = {
   "README.md": {
     type: "markdown",
     icon: <Info size={16} className="text-blue-400" />,
-    content: `# Yash Dafade — Backend Engineer · Node.js · Python · AI/LLM Integration
+    content: `# Yash Dafade — Data Engineer · DBA · Backend Developer
 
-> "Backend Engineer with hands-on experience building production REST APIs, AI/LLM-integrated services, and role-based data platforms with Node.js and Python (FastAPI). Skilled in RAG pipelines, embedding-based search, secure auth, and PostgreSQL/MongoDB optimization. Ships end-to-end via Docker, CI/CD, and Linux VPS; working knowledge of GraphQL, Redis, TypeScript."
+> "Production DBA managing Oracle on Linux and MS SQL Server on Windows across multi-environment landscapes. I also build backend systems and AI-integrated applications — REST APIs, microservices, containerized deployments, and LLM/computer-vision integrations. Most of my work outside the day job is self-driven: I take an idea to a deployed, production-grade system to deepen my engineering depth across databases, backend, and data pipelines."
 
 ### 📍 Profile
 - **Location:** Pune, India
-- **Role:** Assistant System Engineer @ TCS
+- **Role:** Prod DBA @ TCS (Oracle on Linux · MS SQL Server on Windows)
 - **Email:** yashdafade93@gmail.com
 - **GitHub:** github.com/Yashdafade
 - **LinkedIn:** linkedin.com/in/yash-dafade-992ab2209`
@@ -89,13 +89,14 @@ export const RESUME_DATA = {
     type: "json",
     icon: <Braces size={16} className="text-yellow-400" />,
     content: `{
+  "databases": ["Oracle", "MS SQL Server", "PostgreSQL", "MySQL", "MongoDB", "Supabase"],
+  "dba_ops": ["Oracle on Linux", "MS SQL Server on Windows", "Backup & Recovery", "Performance Tuning", "Query Optimization", "Schema Design"],
   "backend": ["Node.js", "Express.js", "Python (FastAPI)", "REST APIs", "Microservices"],
   "ai_llm": ["LLM API Integration", "RAG Pipelines", "Embedding-Based Retrieval", "Prompt Engineering", "QLoRA Fine-Tuning"],
-  "database": ["PostgreSQL", "MongoDB", "MySQL", "MS SQL Server", "Oracle"],
+  "data_engineering": ["ETL Pipelines", "Data Modeling", "SQL Scripting", "Power BI (DAX)", "Reporting Automation"],
   "auth_security": ["JWT", "RBAC", "Input Validation", "AES-256-GCM Field-Level Encryption"],
-  "cloud_devops": ["Docker", "GitHub Actions", "CI/CD", "Linux", "Nginx", "Hostinger VPS", "Render", "AWS Fundamentals"],
-  "languages": ["JavaScript (ES6+)", "TypeScript", "Python"],
-  "frontend": ["React.js", "Tailwind CSS"],
+  "cloud_devops": ["Docker", "GitHub Actions", "CI/CD", "Linux", "Nginx", "AWS Fundamentals"],
+  "languages": ["SQL", "PL/SQL", "T-SQL", "JavaScript (ES6+)", "TypeScript", "Python"],
   "practices": ["System Design", "SOLID Principles", "Clean Code", "Git", "Agile"]
 }`
   },
@@ -222,17 +223,6 @@ class ProjectPortfolio:
                     "Restore script remaps UUIDs to preserve foreign keys",
                 ],
             ),
-            OpenSourceProject(
-                name="delegate-task-mcp",
-                description="MCP server that lets a primary coding agent delegate heavy tasks "
-                            "(repo-wide analysis, bulk refactors, log summarization) to other CLI "
-                            "agents based on task complexity, context window, and quota.",
-                repo="github.com/Yashdafade/delegate-task (going public soon)",
-                highlights=[
-                    "Cuts primary-agent token usage by offloading heavy tasks",
-                    "Routes to Codex, Gemini, or opencode based on complexity",
-                ],
-            ),
         ]
 `
   },
@@ -257,13 +247,14 @@ const CareerTimeline: React.FC = () => {
     {
       period: "Jan 2025 — Present",
       company: "Tata Consultancy Services (TCS)",
-      role: "Assistant System Engineer",
+      role: "Prod DBA",
       location: "Pune, India",
       type: "work",
       highlights: [
-        "Monitored and maintained a multi-server SQL Server and Oracle database environment across "
-        "dev, staging, and production; executed and validated scripts from development teams as "
-        "part of release workflows",
+        "Handling Oracle databases on Linux and MS SQL Server instances on Windows across "
+        "dev, staging, and production environments",
+        "Executing and validating deployment scripts from development teams as part of "
+        "release workflows; managing backup, recovery, and performance tuning",
         "Built Power BI dashboards with DAX-based calculated columns and measures to transform "
         "raw monitoring data into reporting-ready metrics",
         "Automated ticketing workflows on ServiceNow and Ivanti, reducing manual triage steps "
@@ -273,7 +264,7 @@ const CareerTimeline: React.FC = () => {
     {
       period: "2024",
       company: "Independent Projects",
-      role: "Backend Engineer",
+      role: "Backend Developer",
       location: "Pune, India",
       type: "project",
       highlights: [
@@ -319,7 +310,8 @@ export const TERMINAL_LOGS_INITIAL = [
 ];
 
 export const TERMINAL_RANDOM_LOGS = [
-  "Connecting to PostgreSQL Database... [SUCCESS]",
+  "Connecting to Oracle Database... [SUCCESS]",
+  "MS SQL Server health check — all instances healthy.",
   "Docker container 'schoolix-api' started (PID: 4022).",
   "Fetching database columns schema...",
   "Python face embedding service ready (OpenCV).",
@@ -328,8 +320,8 @@ export const TERMINAL_RANDOM_LOGS = [
   "Running database migration: 20250101_init_schema",
   "Security Audit: JWT verified.",
   "Optimizing SQL queries... done.",
-  "Supabase Edge Function invoked: send-email ✓",
+  "Oracle RMAN backup completed successfully.",
   "GitHub Actions: Build passed ✓ Deploy triggered.",
-  "Caddy reverse proxy configured for schoolix module",
+  "SQL Server Agent job: index_rebuild — completed.",
   "POST /api/attendance/mark 201 Created — 120ms"
 ];

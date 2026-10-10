@@ -62,21 +62,23 @@ export default function TimelineView() {
           <TimelineEntry
             period="Jan 2025 — Present"
             title="Tata Consultancy Services (TCS)"
-            role="Assistant System Engineer"
+            role="Prod DBA"
             location="Pune, India"
             color="blue"
             delay={0}
             highlights={[
-              "Monitored and maintained a multi-server SQL Server and Oracle database environment across dev, staging, and production; executed and validated scripts from development teams as part of release workflows",
+              "Handling Oracle databases on Linux and MS SQL Server instances on Windows across dev, staging, and production environments",
+              "Executing and validating deployment scripts from development teams as part of release workflows; managing backup, recovery, and performance tuning",
               "Built Power BI dashboards with DAX-based calculated columns and measures to transform raw monitoring data into reporting-ready metrics",
               "Automated ticketing workflows on ServiceNow and Ivanti, reducing manual triage steps for recurring issue categories"
             ]}
+            technologies={["Oracle", "MS SQL Server", "Linux", "Windows Server", "Power BI", "ServiceNow", "Ivanti"]}
           />
 
           <TimelineEntry
             period="2024"
             title="Independent Projects"
-            role="Backend Engineer"
+            role="Backend Developer"
             location="Pune, India"
             color="green"
             delay={100}

@@ -190,21 +190,6 @@ export default function ProjectsView() {
             delay={240}
           />
 
-          <ProjectCard
-            title="delegate-task-mcp"
-            status="Open Source"
-            statusColor="yellow"
-            gradient="from-red-500 to-pink-400"
-            description="MCP server that lets primary coding agents delegate heavy tasks to other CLI agents based on complexity and quota."
-            stack="TypeScript, MCP Protocol, Claude Code, Gemini, opencode"
-            metrics={[
-              "Cuts primary-agent token usage by offloading repo-wide analysis and bulk refactors",
-              "Routes tasks to Codex, Gemini, or opencode based on task complexity and context window"
-            ]}
-            github="https://github.com/Yashdafade/delegate-task"
-            delay={320}
-          />
-
         </div>
       </div>
     </div>
